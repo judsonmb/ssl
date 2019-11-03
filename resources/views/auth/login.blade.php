@@ -26,7 +26,8 @@
 <div class="login-page">
     <div class="form">
         <img id="linknBrain" src="{{url('/img/linkn-cerebro.png')}}" alt="Image" width="170" height="170"/><br><br>
-        <h3>Por favor, efetue login.</h3>
+        <small>Seja bem vindo ao sistema de solicitações da LinKn!</small>
+		<h3>Por favor, efetue login.</h3>
         <form class="login-form" method="POST" action="{{ route('login') }}">
             @csrf
             <input placeholder="digite seu e-mail" id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
