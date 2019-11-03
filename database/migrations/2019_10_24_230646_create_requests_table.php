@@ -21,8 +21,6 @@ class CreateRequestsTable extends Migration
             $table->foreign('project_id')->references('id')->on('Projects')->ondelete('cascade');
             $table->string('title');
             $table->text('description');
-            $table->string('request_file')->nullable();
-            $table->string('response_file')->nullable();
             $table->bigInteger('technician_id')->unsigned()->nullable();
             $table->foreign('technician_id')->references('id')->on('Users');
             $table->enum('type', ['bug', 'new feature', 'improvement', 'request'])->nullable();

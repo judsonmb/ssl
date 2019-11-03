@@ -16,6 +16,8 @@ use App\Institution;
 
 use App\Project;
 
+use App\File;
+
 use Auth;
 
 use Mail;
@@ -35,56 +37,28 @@ class RequestController extends Controller
      */
     public function index()
     {
-        $technicians = User::where('type', '=', 'admin')->orderBy('name')->get();
+		
+		switch(Auth::user()->type){
 
-        switch(Auth::user()->type){
-
-            case 'admin':
-                $projects = Project::orderby('name')->get();
-                break;
-            case 'main requester':
-                //quero todos os projetos das instituições de usuários que não são admins
-                $users = User::where('type','admin')->get()->pluck('institution_id');
-                $projects = Project::where('institution_id', '!=', $users)->orderby('name')->get();
-                break;
-            case 'requester':
-                $projects = Project::where('institution_id', '=', Auth::user()->institution_id)->orderby('name')->get();
-                break;
-        }
-
-        return view(Auth::user()->type.'/requests', compact('technicians','projects'));
-    }
-
-    public function indexJson($type, $institution)
-    {   
-
-        switch($type)
-        {
             case 'admin':
                 $requests = RequestModel::orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
+				
             case 'main requester':
                 $requests = RequestModel::wherehas('user', function($query){
                     $query->where('type', '!=', 'admin');
                 })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
+				
             case 'requester':
-                $requests = RequestModel::wherehas('user', function($query) use ($institution){
+				$requests = RequestModel::wherehas('user', function($query) use ($institution){
                     $query->where('institution_id', '=', $institution);
                 })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
         }
-        
-        $requests->load(['user' => function ($query) {
-            $query->with('institution');
-        }]);
-    
-        $pagination = $requests->links();
-    
-        return response()->json(array(
-            'requests' => $requests,
-            'pagination' => (string) $pagination,
-        ));
+
+        return view('requests-'.Auth::user()->type, compact('requests'));
+		
     }
 
     /**
@@ -94,7 +68,25 @@ class RequestController extends Controller
      */
     public function create()
     {
-        //
+        switch(Auth::user()->type)
+		{
+
+            case 'admin':
+                $projects = Project::orderby('name')->get();
+                break;
+				
+            case 'main requester':
+                //quero todos os projetos das instituições de usuários que não são admins
+                $users = User::where('type','admin')->get()->pluck('institution_id');
+                $projects = Project::where('institution_id', '!=', $users)->orderby('name')->get();
+                break;
+				
+            case 'requester':
+                $projects = Project::where('institution_id', '=', Auth::user()->institution_id)->orderby('name')->get();
+                break;
+        }
+		
+		return view('requests-create', compact('projects'));
     }
 
     /**
@@ -106,35 +98,49 @@ class RequestController extends Controller
     public function store(Request $request)
     {   
         $validatedData = $request->validate([
-            'requestProject' => 'required',
-            'requestTitle' => 'required|string|min:2|max:255',
-            'requestDescription' => 'required',
+            'project_id' => 'required',
+            'title' => 'required|string|min:2|max:255',
+            'description' => 'required',
         ]);
 
         $requestModel = new RequestModel();
-        $requestModel->user_id = $request->input('id');
-        $requestModel->project_id = $request->input('requestProject');
-        $requestModel->title = $request->input('requestTitle');
-        $requestModel->description = $request->input('requestDescription');
-
+		
+        $requestModel->user_id = Auth::user()->id;
+		
+        $requestModel->project_id = $request->input('project_id');
+		
+        $requestModel->title = $request->input('title');
+		
+        $requestModel->description = $request->input('description');
+		
+		$requestModel->save();
+		
         if($request->file('file') != null)
         {
             $file = $request->file('file');
+			
             $fileName = $file->getClientOriginalName();
+			
             Storage::put('files/'.$fileName, file_get_contents($file));
-            $requestModel->request_file = $fileName;
+			
+            $fileModel = new File();
+			
+			$fileModel->name = $fileName;
+			
+			$fileModel->request_id = $requestModel->id;
+			
+			$fileModel->save();
         }
         
-        $requestModel->save();
-
-        $user = User::find($request->input('id'));
-
         $requestHistoric = new RequestHistoricController();
-        $requestHistoric->store($requestModel->id, $user->id);
+		
+        $requestHistoric->store($requestModel->id, Auth::user()->id);
         
-        Mail::to('contato@linkn.com.br')->send(new NewRequestMail($user, $requestModel));
+		$fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
+		
+        Mail::to('judsonmelobandeira@gmail.com')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description')));
 
-        return $requestModel;
+        return redirect()->route('requests.index');
     }
 
     /**

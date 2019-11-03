@@ -22,31 +22,28 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-//para poder acessar estas rotas, tem que estar autenticado e ser admin
-Route::middleware(['auth','admin'])->group(function () {
-
-    Route::resource('users', 'UserController');
-	
-	Route::resource('/projects', 'ProjectController');
-    
-    Route::resource('/institutions', 'InstitutionController');
-
-    
-});
-
 Route::middleware(['auth'])->group(function () {
+
+    Route::resource('/requests', 'RequestController');
 
     Route::get('/password/edit', 'UserController@editPassword')->name('edit-password');
     
     Route::put('/password/update/', 'UserController@updatePassword')->name('update-password');
-
-    Route::get('/requests', 'RequestController@index')->name('requests');
 
     Route::get('/download/{file}', function($file){
 
         return Storage::download('files/'.$file);
 
     });
+	
+	Route::middleware('admin')->group(function () {	
 
+		Route::resource('/users', 'UserController');
+		
+		Route::resource('/projects', 'ProjectController');
+		
+		Route::resource('/institutions', 'InstitutionController');
+
+	}); 
+ 
 });

@@ -12,8 +12,7 @@ class Request extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'description', 'request_file', 'response_file', 
-        'type', 'priority', 'technician_id', 'deadline', 'function_points','status'
+        'user_id', 'description', 'type', 'priority', 'technician_id', 'deadline', 'function_points','status'
     ];
 
     /**
@@ -38,6 +37,14 @@ class Request extends Model
     public function technician()
     {
         return $this->belongsTo('App\User', 'technician_id', 'id');
+    }
+	
+	/**
+     * Get the files for the institution.
+     */
+    public function files()
+    {
+        return $this->hasMany('App\File');
     }
 
     
