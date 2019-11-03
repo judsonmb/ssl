@@ -39,8 +39,8 @@
 						<div class="form-group">
 							<label for="type">Tipo</label>
 							<select class="form-control" name="type">
-								<option value="{{ old('email') ?? $user->type }}">
-									{{ old('email') ?? $user->type }}
+								<option value="{{ old('type') ?? $user->type }}">
+									{{ old('type') ?? $user->type }}
 								</option>
 								<option value="admin">admin</option>
 								<option value="main requester">main requester</option>

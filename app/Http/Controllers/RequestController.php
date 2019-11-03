@@ -178,9 +178,9 @@ class RequestController extends Controller
 
         $request->load('user');
 
-        return response()->json(array(
-             'request' => $request,
-        ));
+		$technicians = User::where('type', 'admin')->orderBy('name')->get();
+
+        return view('requests-edit', compact('request', 'technicians'));
     }
 
     /**
@@ -192,80 +192,70 @@ class RequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $requestModel = RequestModel::find($id);
-
-        $requestModel->load('user');
+		$requestModel = RequestModel::find($id);
+		
+		$requestModel->load('user');
+		
         $requestModel->load('project');
-
-        $subject = "Your request was updated";
-        $body = "";
-        $delivered = "";
-
-        $requestHistoric = new RequestHistoricController();
-        $requestHistoric->update($requestModel, $request);
-
-        if($requestModel->status != $request->input('editRequestStatus'))
+		
+		if($requestModel->status != $request->input('status'))
         {   
-            $deadline = new \DateTime($request->input('editRequestDeadline'));
-            $deadline = $deadline->format('d/m/Y');
-
-            $technician = User::find($request->input('editRequestTechnician'));
-            $technicianName = ($technician == null) ? "To be defined" : $technician->name;
-
-            $body .= "The your request status has updated to <h2>" . $request->input('editRequestStatus') . "</h2>";
-           
-            $body .= "Details:<br>";
-            
-            $body .= "Project: " . $requestModel->project->name . "<br>";
-            $body .= "Responsible Technician: " . $technicianName . "<br>";
-            $body .= "Type: " . $request->input('editRequestType') . "<br>";
-            $body .= "Priority: " . $request->input('editRequestPriority') . "<br>";
-            $body .= "Deadline: " . $deadline . "<br>";
-            $body .= "Function Points: " . $request->input('editRequestFunctionPoints') . "<br>";
-
-            if($request->input('editRequestStatus') == 'done')
+            if($request->input('status') == 'done')
             { 
                 $validatedData = $request->validate([
-                    'editRequestType' => 'required',
-                    'editRequestPriority' => 'required',
-                    'editRequestDeadline' => 'required',
-                    'editRequestTechnician' => 'required',
-                    'editRequestFunctionPoints' => 'required',
+                    'type' => 'required',
+                    'priority' => 'required',
+                    'deadline' => 'required',
+                    'technician_id' => 'required',
+                    'function_points' => 'required',
                 ]);
+				
+				$actualDate = new \DateTime();
+                
+				$doneDate = new \DateTime($request->input('deadline'));
+                
+				$requestModel->delivered = ($doneDate >= $actualDate) ? 'on time' : 'late'; 
+ 
+			} 
+			
+		}	
+		
+		$requestModel->type = $request->input('type');
+		
+		$requestModel->priority = $request->input('priority');	
 
-                $subject = "Your Request was Done!";
-                $actualDate = new \DateTime();
-                $doneDate = new \DateTime($request->input('editRequestDeadline'));
-                $delivered = ($doneDate >= $actualDate) ? 'on time' : 'late'; 
-                $requestModel->delivered = $delivered;
-                $action = "completed";
-                       
-            }
+		$requestModel->deadline = $request->input('deadline');	
 
-            Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel->user, $requestModel,  $subject, $body)); 
-        }
-
-        $requestModel->type = $request->input('editRequestType');
-        $requestModel->priority = $request->input('editRequestPriority');
-        $requestModel->deadline = $request->input('editRequestDeadline');
-        $requestModel->status = $request->input('editRequestStatus');
-        $requestModel->technician_id = $request->input('editRequestTechnician');
-        $requestModel->function_points = $request->input('editRequestFunctionPoints');
-
-        if($request->file('file') != null)
+		$requestModel->technician_id = $request->input('technician_id');	
+		
+		$requestModel->function_points = $request->input('function_points');	
+		
+		$requestHistoric = new RequestHistoricController();
+		
+        $requestHistoric->update($requestModel, $request);
+		
+		if($request->file('file') != null)
         {
             $file = $request->file('file');
+			
             $fileName = $file->getClientOriginalName();
+			
             Storage::put('files/'.$fileName, file_get_contents($file));
-            $body .= "<br>";
-            $body .= "A response file has been attached. Download it!";
-            $requestModel->response_file = $fileName;
+			
+            $fileModel = new File();
+			
+			$fileModel->name = $fileName;
+			
+			$fileModel->request_id = $requestModel->id;
+			
+			$fileModel->save();
         }
+		
+		$requestModel->save();
+		
+		Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
 
-        $requestModel->save();
-
-
-        return $requestModel;
+        return redirect()->route('requests.index');
     }
 
 

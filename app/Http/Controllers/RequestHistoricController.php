@@ -42,8 +42,11 @@ class RequestHistoricController extends Controller
     public function store($requestId, $userId)
     {
         $requestHistoric = new RequestHistoric();
+		
         $requestHistoric->request_id = $requestId;
+		
         $requestHistoric->user_id = $userId;
+		
         $requestHistoric->save();
     }
 

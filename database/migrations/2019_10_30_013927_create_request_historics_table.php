@@ -24,7 +24,7 @@ class CreateRequestHistoricsTable extends Migration
             $table->dateTime('action_datetime')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
-
+	
     /**
      * Reverse the migrations.
      *
