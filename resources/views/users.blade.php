@@ -43,7 +43,7 @@
 											@csrf
 											@method('DELETE')
 											<a href="/users/{{$u->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="editar"></button></a>
-											<button type="submit" class="btn btn-xs btn-danger" title="desativar"></button>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja desativar este usuário?')" title="desativar"></button>
 										</form>	
 									</td>							
 								</tr>

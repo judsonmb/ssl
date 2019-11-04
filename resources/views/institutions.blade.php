@@ -38,7 +38,7 @@
 											@csrf
 											@method('DELETE')
 											<a href="/institutions/{{$i->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="editar"></button></a>
-											<button type="submit" class="btn btn-xs btn-danger" title="desativar"></button>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta instituição?')" title="excluir"></button>
 										</form>	
 									</td>							
 								</tr>

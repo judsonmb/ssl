@@ -253,7 +253,23 @@ class RequestController extends Controller
      */
     public function destroy($id)
     {
-        //
+		$request = RequestModel::find($id);
+		
+		$files = File::where('request_id', $id)->get();
+		
+		if($files != null)
+		{
+			$fileController = new FileController();
+		
+			foreach($files as $f)
+			{
+				$fileController->destroy($f->name);
+			}
+		}
+		
+        RequestModel::destroy($id);
+	
+		return redirect()->route('requests.index');
     }
 
 }

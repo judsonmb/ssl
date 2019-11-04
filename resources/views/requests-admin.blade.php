@@ -37,7 +37,10 @@
 									<td>{{ $r->title }}</td>
 									<td>{{ $r->user->name }}</td>
 									<td>{{ $r->project->name }}</td>
-									<td>{{ ($r->deadline != null) ? date('d/m/Y', strtotime($r->deadline)) : 'Não definido' }}</td>
+									<td>{{ ($r->deadline != null) 
+											? date('d/m/Y', strtotime($r->deadline)) 
+											: 'Não definido' }}
+									</td>
 									<td>{{ $r->status }}</td>
 									<td>
 										<form action="{{ route('requests.destroy', $r->id) }}" method="POST">
@@ -45,7 +48,7 @@
 											@method('DELETE')
 											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary" title="ver detalhes"></button></a>
 											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="atualizar"></button></a>
-											<button type="submit" class="btn btn-xs btn-danger" title="desativar"></button>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta solicitação?')" title="excluir"></button>
 										</form>	
 									</td>							
 								</tr>

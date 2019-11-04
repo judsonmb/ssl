@@ -29,7 +29,7 @@
 								? date('d/m/Y', strtotime($request->deadline)) 
 								: 'Ainda não definido' }}<br><br>
 					
-					Técnico responsável: {{$request->technician->name}}<br>
+					Técnico responsável: {{ (isset($request->technician->name)) ? $request->technician->name : "Ainda não definido"}}<br>
 					Tipo: {{ $request->type }}<br>
 					Prioridade: {{ $request->priority }}<br>
 					Pontos de função: {{ $request->function_points }}<br>
