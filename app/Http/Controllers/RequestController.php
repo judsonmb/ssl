@@ -40,17 +40,17 @@ class RequestController extends Controller
 		switch(Auth::user()->type){
 
             case 'admin':
-                $requests = RequestModel::orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
+                $requests = RequestModel::where('status', '!=', 'done')->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
 				
             case 'main requester':
-                $requests = RequestModel::wherehas('user', function($query){
+                $requests = RequestModel::where('status', '!=', 'done')->wherehas('user', function($query){
                     $query->where('type', '!=', 'admin');
                 })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
 				
             case 'requester':
-				$requests = RequestModel::wherehas('user', function($query) use ($institution){
+				$requests = RequestModel::where('status', '!=', 'done')->wherehas('user', function($query) use ($institution){
                     $query->where('institution_id', '=', $institution);
                 })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
