@@ -49,7 +49,7 @@ class UserController extends Controller
 
         User::create($request->all());
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('status', 'Usuário cadastrado com sucesso!');
     }
 
     /**
@@ -95,7 +95,7 @@ class UserController extends Controller
         
 		$user->update($request->all());
         
-		return redirect()->route('users.index');
+		return redirect()->route('users.index')->with('status', 'Usuário editado com sucesso!');
     }
 
     /**
@@ -135,7 +135,7 @@ class UserController extends Controller
 		
         $user->save();
 
-        return redirect('home');
+        return redirect('home')->with('status', 'Senha editada com sucesso!');
     }
 
     public function validate(Request $request, $id = null, Array $rules = null, Array $messages = null, Array $customAttributes = null)

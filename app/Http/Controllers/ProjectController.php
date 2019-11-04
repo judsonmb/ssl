@@ -48,7 +48,7 @@ class ProjectController extends Controller
 
         Project::create($request->all());
 
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with('status', 'Projeto cadastrado com sucesso!');;
     }
 
 
@@ -95,7 +95,7 @@ class ProjectController extends Controller
         
 		$project->update($request->all());
         
-		return redirect()->route('projects.index');
+		return redirect()->route('projects.index')->with('status', 'Projeto atualizado com sucesso!');;
     }
 
      /**
@@ -108,7 +108,7 @@ class ProjectController extends Controller
     {
         Project::destroy($id);
 		
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with('status', 'Projeto excluído com sucesso!');;
     }
 
     public function validate(Request $request, Array $rules = null, Array $messages = null, Array $customAttributes = null)

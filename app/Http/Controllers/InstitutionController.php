@@ -51,7 +51,7 @@ class InstitutionController extends Controller
 		
         $institution->save();
 		
-        return redirect()->route('institutions.index');
+        return redirect()->route('institutions.index')->with('status', 'Instituição cadastrada com sucesso!');
     }
 
     /**
@@ -97,7 +97,7 @@ class InstitutionController extends Controller
 		
         $institution->save();
 		
-        return redirect()->route('institutions.index');
+        return redirect()->route('institutions.index')->with('status', 'Instituição atualizada com sucesso!');
     }
 
     /**
@@ -110,7 +110,7 @@ class InstitutionController extends Controller
     {
         Institution::destroy($id);
 		
-        return redirect()->route('institutions.index');
+        return redirect()->route('institutions.index')->with('status', 'Instituição excluída com sucesso!');
     }
 	
 	public function validate(Request $request, Array $rules = null, Array $messages = null, Array $customAttributes = null)

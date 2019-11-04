@@ -115,7 +115,14 @@
                 </div>
             </div>
         </nav>
-
+		@if (session('status'))
+			<div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align:center;">
+				<strong>{{ session('status') }}</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		@endif
         <main class="py-4">
             @yield('content')
         </main>

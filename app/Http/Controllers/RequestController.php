@@ -130,7 +130,7 @@ class RequestController extends Controller
 		
         Mail::to('contato@linkn.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description')));
 
-        return redirect()->route('requests.index');
+        return redirect()->route('requests.index')->with('status', 'Solicitação enviada com sucesso!');
     }
 
     /**
@@ -241,7 +241,7 @@ class RequestController extends Controller
 		
 		$requestModel->save();
 		
-        return redirect()->route('requests.index');
+        return redirect()->route('requests.index')->with('status', 'Solicitação atualizada com sucesso!');
     }
 
 
@@ -269,7 +269,7 @@ class RequestController extends Controller
 		
         RequestModel::destroy($id);
 	
-		return redirect()->route('requests.index');
+		return redirect()->route('requests.index')->with('status', 'Solicitação excluída com sucesso!');
     }
 
 }
