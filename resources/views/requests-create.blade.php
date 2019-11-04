@@ -58,8 +58,8 @@
 							<div class="error">{{ $message }}</div>
 							@enderror
 						</div>
-						<button type="submit" class="btn btn-success">Criar</button>
-						<a href="/requests"><button type="button" class="btn btn-secondary">Cancelar</button></a>
+						<button type="submit" class="btn btn-success" onclick="this.innerText ='Criando…';this.disabled=true;this.form.submit()">Criar</button>
+						<a href="/requests"><button type="button" class="btn btn-secondary" >Cancelar</button></a>
 					</form>
                 </div>
 			</div>

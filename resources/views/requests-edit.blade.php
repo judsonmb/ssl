@@ -107,7 +107,7 @@
 							<div class="error">{{ $message }}</div>
 							@enderror
 						</div>
-						<button type="submit" class="btn btn-success">Atualizar</button>
+						<button type="submit" class="btn btn-success" onclick="this.innerText ='Atualizando…';this.disabled=true;this.form.submit()">Atualizar</button>
 						<a href="/requests"><button type="button" class="btn btn-secondary">Cancelar</button></a>
 					</form>
                 </div>
