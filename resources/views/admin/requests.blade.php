@@ -46,9 +46,9 @@
 										<form action="{{ route('requests.destroy', $r->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary" title="ver detalhes"></button></a>
-											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="atualizar"></button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta solicitação?')" title="excluir"></button>
+											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary">Ver detalhes</button></a>
+											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Atualizar</button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta solicitação?')">Excluir</button>
 										</form>	
 									</td>							
 								</tr>

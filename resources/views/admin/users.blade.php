@@ -42,8 +42,8 @@
 										<form action="{{ route('users.destroy', $u->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/users/{{$u->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="editar"></button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja desativar este usuário?')" title="desativar"></button>
+											<a href="/users/{{$u->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja desativar este usuário?')">Desativar</button>
 										</form>	
 									</td>							
 								</tr>

@@ -216,8 +216,7 @@ class RequestController extends Controller
 				$doneDate = new \DateTime($request->input('deadline'));
                 
 				$requestModel->delivered = ($doneDate >= $actualDate) ? 'on time' : 'late'; 
-				
-				Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
+			
 			} 
 			
 			Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));

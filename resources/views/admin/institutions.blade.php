@@ -37,8 +37,8 @@
 										<form action="{{ route('institutions.destroy', $i->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/institutions/{{$i->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="editar"></button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta instituição?')" title="excluir"></button>
+											<a href="/institutions/{{$i->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta instituição?')">Excluir</button>
 										</form>	
 									</td>							
 								</tr>

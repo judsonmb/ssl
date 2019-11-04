@@ -43,7 +43,7 @@
 									</td>
 									<td>{{ $r->status }}</td>
 									<td>
-										<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary" title="ver detalhes"></button></a>		
+										<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary">Ver detalhes</button></a>		
 									</td>							
 								</tr>
 							@endforeach
