@@ -43,6 +43,7 @@
 										<form action="{{ route('requests.destroy', $r->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
+											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary" title="ver detalhes"></button></a>
 											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="atualizar"></button></a>
 											<button type="submit" class="btn btn-xs btn-danger" title="desativar"></button>
 										</form>	

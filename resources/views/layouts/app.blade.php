@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Solicitações</title>
+    <title>LinKn Solicitações</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

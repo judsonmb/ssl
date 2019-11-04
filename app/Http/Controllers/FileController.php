@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\File;
 
+use Illuminate\Support\Facades\Storage;
+
 class FileController extends Controller
 {
     /**
@@ -34,9 +36,17 @@ class FileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\Illuminate\Http\UploadedFile $file, int $request_id)
     {
-        //
+		$fileModel = new File();
+		
+		$fileModel->name = $file->getClientOriginalName();
+		
+		$fileModel->request_id = $request_id;
+		
+		Storage::put('files/'.$fileModel->name, file_get_contents($file));
+		
+		$fileModel->save();
     }
 
     /**

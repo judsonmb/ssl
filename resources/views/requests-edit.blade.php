@@ -17,7 +17,7 @@
                     Atualizar as informações da solicitação {{$request->title}} de {{ $request->user->name }}.    
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="/requests/{{ $request->id }}">
+                    <form method="POST" action="/requests/{{ $request->id }}" enctype="multipart/form-data">
 						@csrf
 						@method('PUT')
 						<div class="form-group">
@@ -27,7 +27,7 @@
 									{{ old('type') ?? $request->type }}
 								</option>
 								<option value="bug">bug</option>
-								<option value="new request">new request</option>
+								<option value="new feature">new feature</option>
 								<option value="improvement">improvement</option>
 								<option value="request">request</option>
 							</select>
@@ -55,8 +55,8 @@
 						<div class="form-group">
 							<label for="technician_id">Técnico Responsável</label>
 							<select class="form-control" name="technician_id">
-								<option value="{{ old('technician_id') ?? $request->technician_id }}">
-									{{ old('technician_id') ?? $request->technician_id }}
+								<option value="{{ $request->technician_id ?? '' }}">
+									{{ $request->technician->name ?? 'selecione...' }}
 								</option>
 								@foreach($technicians as $t)
 									<option value="{{ $t->id }}">{{ $t->name }}</option>
@@ -69,7 +69,7 @@
 						</div>
 						<div class="form-group">
 							<label for="deadline">Prazo</label>
-							<input type="date" class="form-control" name="deadline">
+							<input type="date" class="form-control" name="deadline" value="{{ $request->deadline ?? '' }}">
 							
 							@error('deadline')
 							<div class="error">{{ $message }}</div>
@@ -93,7 +93,7 @@
 						</div>
 						<div class="form-group">
 							<label for="function_points">Pontos de função</label>
-							<input type="number" class="form-control" name="function_points">
+							<input type="number" class="form-control" name="function_points" value="{{ old('function_points') ?? $request->function_points }}">
 							
 							@error('function_points')
 							<div class="error">{{ $message }}</div>

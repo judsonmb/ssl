@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use RequestModel;
 
 use App\Http\Controllers\RequestHistoricController;
+use App\Http\Controllers\FileController;
 
 use App\RequestHistoric;
 
@@ -16,8 +17,6 @@ use App\Institution;
 
 use App\Project;
 
-use App\File;
-
 use Auth;
 
 use Mail;
@@ -25,8 +24,6 @@ use Mail;
 use App\Mail\NewRequestMail;
 
 use App\Mail\UpdateRequestMail;
-
-use Illuminate\Support\Facades\Storage;
 
 class RequestController extends Controller
 {
@@ -115,21 +112,11 @@ class RequestController extends Controller
 		
 		$requestModel->save();
 		
-        if($request->file('file') != null)
+		if($request->file('file') != null)
         {
-            $file = $request->file('file');
+			$file = new FileController();
 			
-            $fileName = $file->getClientOriginalName();
-			
-            Storage::put('files/'.$fileName, file_get_contents($file));
-			
-            $fileModel = new File();
-			
-			$fileModel->name = $fileName;
-			
-			$fileModel->request_id = $requestModel->id;
-			
-			$fileModel->save();
+			$file->store($request->file('file'), $requestModel->id);
         }
         
         $requestHistoric = new RequestHistoricController();
@@ -160,10 +147,7 @@ class RequestController extends Controller
 
         $historics->load('user');
 
-        return response()->json(array(
-             'request' => $request,
-             'historics' => $historics
-        ));
+        return view('requests-details', compact('request', 'historics'));
     }
 
     /**
@@ -177,6 +161,8 @@ class RequestController extends Controller
         $request = RequestModel::find($id);
 
         $request->load('user');
+		
+        $request->load('technician');
 
 		$technicians = User::where('type', 'admin')->orderBy('name')->get();
 
@@ -198,8 +184,15 @@ class RequestController extends Controller
 		
         $requestModel->load('project');
 		
+		if($request->file('file') != null)
+        {
+			$file = new FileController();
+			
+			$file->store($request->file('file'), $requestModel->id);
+        }
+		
 		if($requestModel->status != $request->input('status'))
-        {   
+        {  		
             if($request->input('status') == 'done')
             { 
                 $validatedData = $request->validate([
@@ -215,46 +208,32 @@ class RequestController extends Controller
 				$doneDate = new \DateTime($request->input('deadline'));
                 
 				$requestModel->delivered = ($doneDate >= $actualDate) ? 'on time' : 'late'; 
- 
+				
+				//Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
 			} 
 			
+			Mail::to('judsonmelobandeira@gmail.com')->send(new UpdateRequestMail($requestModel, $request));
+			
 		}	
-		
-		$requestModel->type = $request->input('type');
-		
-		$requestModel->priority = $request->input('priority');	
-
-		$requestModel->deadline = $request->input('deadline');	
-
-		$requestModel->technician_id = $request->input('technician_id');	
-		
-		$requestModel->function_points = $request->input('function_points');	
 		
 		$requestHistoric = new RequestHistoricController();
 		
         $requestHistoric->update($requestModel, $request);
 		
-		if($request->file('file') != null)
-        {
-            $file = $request->file('file');
-			
-            $fileName = $file->getClientOriginalName();
-			
-            Storage::put('files/'.$fileName, file_get_contents($file));
-			
-            $fileModel = new File();
-			
-			$fileModel->name = $fileName;
-			
-			$fileModel->request_id = $requestModel->id;
-			
-			$fileModel->save();
-        }
+		$requestModel->type = $request->input('type');
+		
+		$requestModel->priority = $request->input('priority');	
+
+		$requestModel->deadline = $request->input('deadline');
+		
+		$requestModel->status = $request->input('status');	
+
+		$requestModel->technician_id = $request->input('technician_id');	
+		
+		$requestModel->function_points = $request->input('function_points');
 		
 		$requestModel->save();
 		
-		Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
-
         return redirect()->route('requests.index');
     }
 

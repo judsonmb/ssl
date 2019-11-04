@@ -80,26 +80,55 @@ class RequestHistoricController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(RequestModel $requestModel, Request $request)
-    {
-        $technician = ($requestModel->technician_id != $request->input('editRequestTechnician')) ? User::find( $request->input('editRequestTechnician')) : null;
-        $technicianMessage = ($technician == null) ? "" : " responsible technician to " . $technician->name . ";"; 
-        
-        $message = "updated";
-        $message .= ($requestModel->status != $request->input('editRequestStatus')) ? " the status to ".$request->input('editRequestStatus')." ;" : "";
-        $message .= ($requestModel->technician_id != $request->input('editRequestTechnician')) ? $technicianMessage : "";
-        $message .= ($requestModel->type != $request->input('editRequestType')) ? " the type to ".$request->input('editRequestType').";" : "";
-        $message .= ($requestModel->priority != $request->input('editRequestPriority')) ? " the priority to ".$request->input('editRequestPriority').";" : "";
-        $message .= ($requestModel->deadline != $request->input('editRequestDeadline')) ? " the deadline to ".date_format(new \DateTime($request->input('editRequestDeadline')), 'd/m/Y').";" : "";
-        $message .= ($requestModel->function_points != $request->input('editRequestFunctionPoints')) ? " the function points to ".$request->input('editRequestFunctionPoints').";" : "";
-        $message .= ($request->file('file') != null) ? " added a response file;" : "";
+    {        
+        $message = "atualizou";
+		
+        $message .= ($requestModel->status != $request->input('status')) 
+			? " o status para ".$request->input('status')." ;" 
+			: "";
+			
+        $technician = ($requestModel->technician_id != $request->input('technician_id')) 
+			? User::find( $request->input('technician_id')) 
+			: null;
+			
+        $message .= ($technician == null) 
+			? "" 
+			: " o técnico responsável para " . $technician->name . ";"; 
+			
+        $message .= ($requestModel->type != $request->input('type')) 
+			? " o tipo para ".$request->input('type').";" 
+			: "";
+		
+        $message .= ($requestModel->priority != $request->input('priority')) 
+			? " a prioridade para ".$request->input('priority').";" : "";
 
-        $action = ($request->input('editRequestStatus') == 'done') ? 'completed' : 'update';
+		
+        $message .= ($requestModel->deadline != $request->input('deadline')) 
+			? " o prazo para ".date_format(new \DateTime($request->input('deadline')), 'd/m/Y').";" 
+			: "";
+			
+        $message .= ($requestModel->function_points != $request->input('function_points')) 
+			? " os pontos de função para ".$request->input('function_points').";" 
+			: "";
+		
+        $message .= ($request->file('file') != null) 
+			? " anexou um arquivo;" 
+			: "";
+
+        $action = ($request->input('status') == 'done') 
+			? 'completed' 
+			: 'update';
 
         $requestHistoric = new RequestHistoric();
+		
         $requestHistoric->request_id = $requestModel->id;
-        $requestHistoric->user_id = $request->input('actualUser');
+		
+        $requestHistoric->user_id = Auth::user()->id;
+		
         $requestHistoric->message = $message;
+		
         $requestHistoric->action = $action;
+		
         $requestHistoric->save();
 
     }
