@@ -128,7 +128,7 @@ class RequestController extends Controller
         
 		$fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
 		
-        Mail::to('judsonmelobandeira@gmail.com')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description')));
+        Mail::to('contato@linkn.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description')));
 
         return redirect()->route('requests.index');
     }
@@ -217,10 +217,10 @@ class RequestController extends Controller
                 
 				$requestModel->delivered = ($doneDate >= $actualDate) ? 'on time' : 'late'; 
 				
-				//Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
+				Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
 			} 
 			
-			Mail::to('judsonmelobandeira@gmail.com')->send(new UpdateRequestMail($requestModel, $request));
+			Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
 			
 		}	
 		
