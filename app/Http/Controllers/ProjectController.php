@@ -21,7 +21,7 @@ class ProjectController extends Controller
     {
 		$projects = Project::orderBy('name')->paginate(10);
 		
-        return view('/projects', compact('projects'));
+        return view(Auth::user()->type.'.projects', compact('projects'));
     }
 
     /**
@@ -33,7 +33,7 @@ class ProjectController extends Controller
     {
         $institutions = Institution::orderby('initials')->get();
 		
-		return view('projects-create', compact('institutions')); 
+		return view(Auth::user()->type.'.projects-create', compact('institutions')); 
     }
 
     /**
@@ -77,7 +77,7 @@ class ProjectController extends Controller
 	   
 	   $institutions = Institution::orderby('initials')->get();
 
-       return view('projects-edit', compact('project', 'institutions')); 
+       return view(Auth::user()->type.'.projects-edit', compact('project', 'institutions')); 
     }
 
     /**

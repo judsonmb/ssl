@@ -91,21 +91,26 @@ class HomeController extends Controller
                 ->orderBy('action_datetime', 'desc')
                 ->get();
 
-                return view('home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'));
+                return view(Auth::user()->type.'.home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'));
                 break;
 
             case 'requester':
                 $institution = Auth::user()->institution_id;
                 $users = User::where('institution_id',$institution)->get()->pluck('id'); 
                 $requests = RequestModel::where('user_id', $users)->get()->pluck('id');
-                $requestHistorics = RequestHistoric::with('request')
-                ->with('user')
-                ->where('request_id', $requests)
-                ->whereRaw('MONTH(action_datetime) = '. $month)
-                ->orderBy('action_datetime', 'desc')
-                ->get();
+				if($requests != null){
+					$requestHistorics = 0;
+				}else{
+					$requestHistorics = RequestHistoric::with('request')
+						->with('user')
+						->where('request_id', $requests)
+						->whereRaw('MONTH(action_datetime) = '. $month)
+						->orderBy('action_datetime', 'desc')
+						->get();
+				}
+                
 
-                return view('requester/home', compact('requestHistorics'));
+                return view('requester.home', compact('requestHistorics'));
                 break;
 
         }

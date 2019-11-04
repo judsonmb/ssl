@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Institution;
 
+use Auth;
+
 class InstitutionController extends Controller
 {
     /**
@@ -17,7 +19,7 @@ class InstitutionController extends Controller
     {   
        $institutions = Institution::orderBy('initials')->paginate(10);
 	   
-	   return view('institutions', compact('institutions'));
+	   return view(Auth::user()->type.'.institutions', compact('institutions'));
     }
 
 
@@ -28,7 +30,7 @@ class InstitutionController extends Controller
      */
     public function create()
     {
-        return view('institutions-create');
+        return view(Auth::user()->type.'.institutions-create');
     }
 
     /**
@@ -73,7 +75,7 @@ class InstitutionController extends Controller
     {
        $institution = Institution::find($id);
 
-       return view('institutions-edit', compact('institution')); 
+       return view(Auth::user()->type.'.institutions-edit', compact('institution')); 
     }
 
     /**

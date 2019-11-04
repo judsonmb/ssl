@@ -22,7 +22,7 @@ class UserController extends Controller
     {   
 		$users = User::with('institution')->where('active', 1)->orderby('name')->paginate(10);
 		
-        return view('users', compact('users'));
+        return view(Auth::user()->type.'.users', compact('users'));
     }
 
     /**
@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         $institutions = Institution::orderby('initials')->get();
 		
-		return view('users-create', compact('institutions')); 
+		return view(Auth::user()->type.'.users-create', compact('institutions')); 
     }
 
     /**
@@ -77,7 +77,7 @@ class UserController extends Controller
 	   
 	   $institutions = Institution::orderby('initials')->get();
 
-       return view('users-edit', compact('user', 'institutions')); 
+       return view(Auth::user()->type.'.users-edit', compact('user', 'institutions')); 
     }
 
     /**
@@ -107,14 +107,18 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+		
         $user->active = '0';
+		
         $user->save();
+		
         return redirect()->route('users.index');
     }
 
     public function editPassword()
     {
-        $layout = (Auth::user()->type = 'admin') ? 'layouts.app' : 'layouts.app-requester';
+        $layout = (Auth::user()->type = 'admin') ? 'layouts.app-admin' : 'layouts.app';
+		
         return view('users-edit-password', compact('layout'));
     }
 
@@ -126,7 +130,9 @@ class UserController extends Controller
         ]);
             
         $user = User::find(Auth::user()->id);
+		
         $user->password = bcrypt($request->input('password'));
+		
         $user->save();
 
         return redirect('home');

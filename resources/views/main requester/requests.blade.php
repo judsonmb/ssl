@@ -7,40 +7,43 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Projetos</li>    
+                    <li class="breadcrumb-item active" aria-current="page">Solicitações</li>    
                 </ol>
             </nav>  
             <div class="card">
                 <div class="card-header">
-                    <a href="/projects/create">
+                    <a href="/requests/create">
 						<button class="btn btn-xs btn-success">Criar</button>
 					</a>  
                 </div>
 				<div style="text-align: center">
-					Mostrando {{ $projects->count() }} registro(s). Total: {{ $projects->total() }}.
+					Mostrando {{ $requests->count() }} registro(s). Total: {{ $requests->total() }}.
 				</div>
                 <div class="card-body">
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Instituição</th>
+								<th scope="col">Título</th>
+                                <th scope="col">Solicitante</th>
+                                <th scope="col">Projeto</th>
+                                <th scope="col">Prazo</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-							@foreach($projects as $p)
+							@foreach($requests as $r)
 								<tr>
-									<td>{{ $p->name }}</td>
-									<td>{{ $p->institution->initials }}</td>
+									<td>{{ $r->title }}</td>
+									<td>{{ $r->user->name }}</td>
+									<td>{{ $r->project->name }}</td>
+									<td>{{ ($r->deadline != null) 
+											? date('d/m/Y', strtotime($r->deadline)) 
+											: 'Não definido' }}
+									</td>
+									<td>{{ $r->status }}</td>
 									<td>
-										
-										<form action="{{ route('projects.destroy', $p->id) }}" method="POST">
-											@csrf
-											@method('DELETE')
-											<a href="/projects/{{$p->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="editar"></button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir este projeto?')" title="excluir"></button>
-										</form>	
+										<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary" title="ver detalhes"></button></a>		
 									</td>							
 								</tr>
 							@endforeach
@@ -48,7 +51,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-					{{ $projects->links() }}
+					{{ $requests->links() }}
                 </div>
         </div>
     </div>

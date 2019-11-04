@@ -50,13 +50,14 @@ class RequestController extends Controller
                 break;
 				
             case 'requester':
+				$institution = Auth::user()->institution_id;
 				$requests = RequestModel::where('status', '!=', 'done')->wherehas('user', function($query) use ($institution){
                     $query->where('institution_id', '=', $institution);
                 })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
         }
 
-        return view('requests-'.Auth::user()->type, compact('requests'));
+        return view(Auth::user()->type.'.requests', compact('requests'));
 		
     }
 
@@ -173,7 +174,7 @@ class RequestController extends Controller
 
 		$technicians = User::where('type', 'admin')->orderBy('name')->get();
 
-        return view('requests-edit', compact('request', 'technicians'));
+        return view(Auth::user()->type.'.requests-edit', compact('request', 'technicians'));
     }
 
     /**
