@@ -47,7 +47,9 @@
 											@csrf
 											@method('DELETE')
 											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary" title="ver detalhes"></button></a>
-											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="atualizar"></button></a>
+											@if($r->status != 'done')
+												<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary" title="atualizar"></button></a>
+											@endif
 											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta solicitação?')" title="excluir"></button>
 										</form>	
 									</td>							
