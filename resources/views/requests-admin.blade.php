@@ -28,7 +28,7 @@
                                 <th scope="col">Projeto</th>
                                 <th scope="col">Prazo</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -17,6 +17,8 @@ use App\Institution;
 
 use App\Project;
 
+use App\File;
+
 use Auth;
 
 use Mail;
@@ -139,15 +141,20 @@ class RequestController extends Controller
     public function show($id)
     {
         $request = RequestModel::find($id);
-        $historics = RequestHistoric::where('request_id', $id)->orderBy('action_datetime')->get();
+        
+		$historics = RequestHistoric::where('request_id', $id)->orderBy('action_datetime', 'desc')->get();
 
-        $request->load('user');
+        $files = File::where('request_id', $id)->get();
+		
+		$request->load('user');
+		
         $request->load('project');
+		
         $request->load('technician');
 
         $historics->load('user');
 
-        return view('requests-details', compact('request', 'historics'));
+        return view('requests-details', compact('request', 'historics', 'files'));
     }
 
     /**

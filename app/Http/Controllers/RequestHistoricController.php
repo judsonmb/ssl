@@ -81,7 +81,7 @@ class RequestHistoricController extends Controller
      */
     public function update(RequestModel $requestModel, Request $request)
     {        
-        $message = "atualizou";
+        $message = "atualizou a solicitação:";
 		
         $message .= ($requestModel->status != $request->input('status')) 
 			? " o status para ".$request->input('status')." ;" 
