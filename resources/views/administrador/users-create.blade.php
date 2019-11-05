@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-administrador')
 
 @section('content')
 <div class="container">
@@ -37,18 +37,12 @@
 						<div class="form-group">
 							<label for="type">Tipo</label>
 							<select class="form-control" name="type">
-								<option value="">selecione...</option>
-								<option value="admin" 
-									{{ (old('type') != null && old('type') == 'admin') ? 'selected' : '' }}>admin
+								<option value="{{ old('type') ?? '' }}">
+									{{ old('type') ?? 'selecione...' }}
 								</option>
-								<option value="main requester" 
-									{{ (old('type') != null && old('type') == 'main requester') ? 'selected' : '' }}>
-									main requester
-								</option>
-								<option value="requester" 
-									{{ (old('type') != null && old('type') == 'requester') ? 'selected' : '' }}>
-									requester
-								</option>
+								<option value="administrador">administrador</option>
+								<option value="parceiro">parceiro</option>
+								<option value="solicitante">solicitante</option>
 							</select>
 							
 							@error('type')

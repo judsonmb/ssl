@@ -1,8 +1,8 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-administrador')
 
 @section('content')
 <div class="container">
-        <h5>{{date('F Y')}}</h5>
+        <h5>Mês/Ano corrente: {{date('m/Y')}}</h5>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">

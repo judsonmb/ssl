@@ -15,15 +15,39 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Judson Melo Bandeira',
                 'email' => 'judson@linkn.com.br',
-                'type' => 'admin',
+                'type' => 'administrador',
+                'institution_id' => '1',
+            ]
+        );
+		DB::table('users')->insert(
+            [
+                'name' => 'Armando Barbosa Sobrinho',
+                'email' => 'armando@linkn.com.br',
+                'type' => 'administrador',
+                'institution_id' => '1',
+            ]
+        );
+		DB::table('users')->insert(
+            [
+                'name' => 'Denys Fellipe Souza Rocha',
+                'email' => 'denys@linkn.com.br',
+                'type' => 'administrador',
+                'institution_id' => '1',
+            ]
+        );
+		DB::table('users')->insert(
+            [
+                'name' => 'Williams Lourenço de Alcantara',
+                'email' => 'williams@linkn.com.br',
+                'type' => 'administrador',
                 'institution_id' => '1',
             ]
         );
         DB::table('users')->insert(
             [
                 'name' => 'Andre Vinicius Teixeira Lima',
-                'email' => 'andre@eyeduc.com.br',
-                'type' => 'main requester',
+                'email' => 'andre.lima@eyeduc.com.br',
+                'type' => 'parceiro',
                 'institution_id' => '2',
             ]
         );
@@ -31,7 +55,39 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Alan Pedro da Silva',
                 'email' => 'alan@eyeduc.com.br',
-                'type' => 'main requester',
+                'type' => 'parceiro',
+                'institution_id' => '2',
+            ]
+        );
+		DB::table('users')->insert(
+            [
+                'name' => 'Geiser Chalco',
+                'email' => 'geiser@eyeduc.com.br',
+                'type' => 'parceiro',
+                'institution_id' => '2',
+            ]
+        );
+		DB::table('users')->insert(
+            [
+                'name' => 'Edmilson Fialho',
+                'email' => 'edmilson.fialho@eyeduc.com.br',
+                'type' => 'parceiro',
+                'institution_id' => '2',
+            ]
+        );
+		DB::table('users')->insert(
+            [
+                'name' => 'Ig Ibert Bittencourt',
+                'email' => 'ig.ibert@eyeduc.com.br',
+                'type' => 'parceiro',
+                'institution_id' => '2',
+            ]
+        );
+		DB::table('users')->insert(
+            [
+                'name' => 'Seiji Isotani',
+                'email' => 'sisotani@eyeduc.com.br',
+                'type' => 'parceiro',
                 'institution_id' => '2',
             ]
         );
@@ -39,7 +95,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Laiza Ribeiro Silva',
                 'email' => 'laizaribeiro@usp.br',
-                'type' => 'requester',
+                'type' => 'solicitante',
                 'institution_id' => '3',
             ]
         );

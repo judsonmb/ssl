@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->enum('type', ['admin', 'main requester', 'requester']);
+            $table->enum('type', ['administrador', 'parceiro', 'solicitante']);
             $table->bigInteger('institution_id')->unsigned();
             $table->foreign('institution_id')->references('id')->on('Institutions')->ondelete('cascade');
             $table->timestamp('email_verified_at')->nullable();

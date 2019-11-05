@@ -115,7 +115,7 @@ class RequestHistoricController extends Controller
 			? " anexou um arquivo;" 
 			: "";
 
-        $action = ($request->input('status') == 'done') 
+        $action = ($request->input('status') == 'feita') 
 			? 'completed' 
 			: 'update';
 

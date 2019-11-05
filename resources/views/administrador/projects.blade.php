@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-administrador')
 
 @section('content')
 <div class="container">
@@ -7,43 +7,39 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Usuários</li>    
+                    <li class="breadcrumb-item active" aria-current="page">Projetos</li>    
                 </ol>
             </nav>  
             <div class="card">
                 <div class="card-header">
-                    <a href="/users/create">
+                    <a href="/projects/create">
 						<button class="btn btn-xs btn-success">Criar</button>
 					</a>  
                 </div>
 				<div style="text-align: center">
-					Mostrando {{ $users->count() }} registro(s). Total: {{ $users->total() }}.
+					Mostrando {{ $projects->count() }} registro(s). Total: {{ $projects->total() }}.
 				</div>
                 <div class="card-body">
                     <table class="table">
-					
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Nome</th>
-                                <th scope="col">E-mail</th>
                                 <th scope="col">Instituição</th>
-                                <th scope="col">Tipo</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-							@foreach($users as $u)
+							@foreach($projects as $p)
 								<tr>
-									<td>{{ $u->name }}</td>
-									<td>{{ $u->email }}</td>	
-									<td>{{ $u->institution->initials }}</td>	
-									<td>{{ $u->type }}</td>	
-									<td>	
-										<form action="{{ route('users.destroy', $u->id) }}" method="POST">
+									<td>{{ $p->name }}</td>
+									<td>{{ $p->institution->initials }}</td>
+									<td>
+										
+										<form action="{{ route('projects.destroy', $p->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/users/{{$u->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja desativar este usuário?')">Desativar</button>
+											<a href="/projects/{{$p->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir este projeto?')">Excluir</button>
 										</form>	
 									</td>							
 								</tr>
@@ -52,7 +48,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-					{{ $users->links() }}
+					{{ $projects->links() }}
                 </div>
         </div>
     </div>

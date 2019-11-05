@@ -41,7 +41,7 @@ class UpdateRequestMail extends Mailable
     {   
 		$this->subject = 
 			(($this->requestModel->status != $this->request->input('status')) && 
-				($this->request->input('status') == 'done')) ? 'Sua solicitação foi feita!' : 'O status da sua solicitação foi atualizado';
+				($this->request->input('status') == 'feita')) ? 'Sua solicitação foi feita!' : 'O status da sua solicitação foi atualizado';
 	
 		$this->body = "O status da sua solicitação foi atualizado para <h2>" . $this->request->input('status') . "</h2>";
 		

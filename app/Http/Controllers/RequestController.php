@@ -39,19 +39,19 @@ class RequestController extends Controller
 		
 		switch(Auth::user()->type){
 
-            case 'admin':
-                $requests = RequestModel::where('status', '!=', 'done')->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
+            case 'administrador':
+                $requests = RequestModel::where('status', '!=', 'feita')->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
 				
-            case 'main requester':
-                $requests = RequestModel::where('status', '!=', 'done')->wherehas('user', function($query){
-                    $query->where('type', '!=', 'admin');
+            case 'parceiro':
+                $requests = RequestModel::where('status', '!=', 'feita')->wherehas('user', function($query){
+                    $query->where('type', '!=', 'administrador');
                 })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
 				
-            case 'requester':
+            case 'solicitante':
 				$institution = Auth::user()->institution_id;
-				$requests = RequestModel::where('status', '!=', 'done')->wherehas('user', function($query) use ($institution){
+				$requests = RequestModel::where('status', '!=', 'feita')->wherehas('user', function($query) use ($institution){
                     $query->where('institution_id', '=', $institution);
                 })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
                 break;
@@ -71,17 +71,17 @@ class RequestController extends Controller
         switch(Auth::user()->type)
 		{
 
-            case 'admin':
+            case 'administrador':
                 $projects = Project::orderby('name')->get();
                 break;
 				
-            case 'main requester':
+            case 'parceiro':
                 //quero todos os projetos das instituições de usuários que não são admins
-                $users = User::where('type','admin')->get()->pluck('institution_id');
+                $users = User::where('type','administrador')->get()->pluck('institution_id');
                 $projects = Project::where('institution_id', '!=', $users)->orderby('name')->get();
                 break;
 				
-            case 'requester':
+            case 'solicitante':
                 $projects = Project::where('institution_id', '=', Auth::user()->institution_id)->orderby('name')->get();
                 break;
         }
@@ -172,7 +172,7 @@ class RequestController extends Controller
 		
         $request->load('technician');
 
-		$technicians = User::where('type', 'admin')->orderBy('name')->get();
+		$technicians = User::where('type', 'administrador')->orderBy('name')->get();
 
         return view(Auth::user()->type.'.requests-edit', compact('request', 'technicians'));
     }
@@ -201,7 +201,7 @@ class RequestController extends Controller
 		
 		if($requestModel->status != $request->input('status'))
         {  		
-            if($request->input('status') == 'done')
+            if($request->input('status') == 'feita')
             { 
                 $validatedData = $request->validate([
                     'type' => 'required',
@@ -215,7 +215,7 @@ class RequestController extends Controller
                 
 				$doneDate = new \DateTime($request->input('deadline'));
                 
-				$requestModel->delivered = ($doneDate >= $actualDate) ? 'on time' : 'late'; 
+				$requestModel->delivered = ($doneDate >= $actualDate) ? 'dentro do prazo' : 'atrasado'; 
 			
 			} 
 			

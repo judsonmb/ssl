@@ -12,7 +12,7 @@ class Request extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'description', 'type', 'priority', 'technician_id', 'deadline', 'function_points','status'
+        'user_id', 'description', 'type', 'priority', 'technician_id', 'deadline', 'function_points','status', 'delivered'
     ];
 
     /**

@@ -40,17 +40,17 @@ class HomeController extends Controller
 
         switch(Auth::user()->type)
         {
-            case 'admin': 
-            case 'main requester':
+            case 'administrador': 
+            case 'parceiro':
             
-                $functionPoints = RequestModel::where('status', 'done')
+                $functionPoints = RequestModel::where('status', 'feita')
                 ->whereRaw('MONTH(updated_at) = '. $month)
                 ->whereRaw('YEAR(updated_at) = '. $year)
                 ->sum('function_points');
 
                 $functionPointsByProject = RequestModel::with('project')
                 ->select(DB::raw('project_id, sum(function_points) as sum'))
-                ->where('status', 'done') 
+                ->where('status', 'feita') 
                 ->whereRaw('MONTH(updated_at) = '. $month)
                 ->whereRaw('YEAR(updated_at) = '. $year)
                 ->groupBy('project_id')
@@ -80,7 +80,7 @@ class HomeController extends Controller
                 ->get();
 
                 $requestsByDelivery = RequestModel::select(DB::raw('delivered, count(id) as sum'))
-                ->where('status', 'done')
+                ->where('status', 'feita')
                 ->whereRaw('MONTH(updated_at) = '. $month)
                 ->whereRaw('YEAR(updated_at) = '. $year)
                 ->groupBy('delivered')
@@ -94,7 +94,7 @@ class HomeController extends Controller
                 return view(Auth::user()->type.'.home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'));
                 break;
 
-            case 'requester':
+            case 'solicitante':
                 $institution = Auth::user()->institution_id;
                 $users = User::where('institution_id',$institution)->get()->pluck('id'); 
                 $requests = RequestModel::where('user_id', $users)->get()->pluck('id');

@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-administrador')
 
 @section('content')
 <div class="container">
@@ -42,9 +42,9 @@
 								<option value="{{ old('type') ?? $user->type }}">
 									{{ old('type') ?? $user->type }}
 								</option>
-								<option value="admin">admin</option>
-								<option value="main requester">main requester</option>
-								<option value="requester">requester</option>
+								<option value="administrador">administrador</option>
+								<option value="parceiro">parceiro</option>
+								<option value="solicitante">solicitante</option>
 							</select>
 							
 							@error('type')

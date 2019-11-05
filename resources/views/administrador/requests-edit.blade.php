@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-administrador')
 
 @section('content')
 <div class="container">
@@ -7,8 +7,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/requests">Solicitações</a></li>   
-                    <li class="breadcrumb-item"><a href="#">{{ $request->title }}</a></li>   
+					<li class="breadcrumb-item"><a href="/requests">Solicitações</a> - {{ $request->title }}</li>
                     <li class="breadcrumb-item active" aria-current="page">Editar</li>    
                 </ol>
             </nav>  
@@ -27,9 +26,9 @@
 									{{ old('type') ?? $request->type }}
 								</option>
 								<option value="bug">bug</option>
-								<option value="new feature">new feature</option>
-								<option value="improvement">improvement</option>
-								<option value="request">request</option>
+								<option value="nova funcionalidade">nova funcionalidade</option>
+								<option value="melhoria">melhoria</option>
+								<option value="pedido">pedido</option>
 							</select>
 							
 							@error('type')
@@ -42,10 +41,10 @@
 								<option value="{{ old('priority') ?? $request->priority }}">
 									{{ old('priority') ?? $request->priority }}
 								</option>
-								<option value="critical">critical</option>
-								<option value="bigger">bigger</option>
-								<option value="smaller">smaller</option>
-								<option value="mild">mild</option>
+								<option value="crítica">crítica</option>
+								<option value="maior">maior</option>
+								<option value="menor">menor</option>
+								<option value="leve">leve</option>
 							</select>
 							
 							@error('priority')
@@ -81,10 +80,10 @@
 								<option value="{{ old('status') ?? $request->status }}">
 									{{ old('status') ?? $request->status }}
 								</option>
-								<option value="to do">to do</option>
-								<option value="doing">doing</option>
-								<option value="blocked">blocked</option>
-								<option value="done">done</option>
+								<option value="a fazer">a fazer</option>
+								<option value="fazendo">fazendo</option>
+								<option value="bloqueada">bloqueada</option>
+								<option value="feita">feita</option>
 							</select>
 							
 							@error('status')

@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-administrador')
 
 @section('content')
 <div class="container">
@@ -7,39 +7,38 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Projetos</li>    
+                    <li class="breadcrumb-item active" aria-current="page">Instituições</li>    
                 </ol>
             </nav>  
             <div class="card">
                 <div class="card-header">
-                    <a href="/projects/create">
+                    <a href="/institutions/create">
 						<button class="btn btn-xs btn-success">Criar</button>
 					</a>  
                 </div>
 				<div style="text-align: center">
-					Mostrando {{ $projects->count() }} registro(s). Total: {{ $projects->total() }}.
+					Mostrando {{ $institutions->count() }} registro(s). Total: {{ $institutions->total() }}.
 				</div>
                 <div class="card-body">
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
+								<th scope="col">Abreviação</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">Instituição</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-							@foreach($projects as $p)
+							@foreach($institutions as $i)
 								<tr>
-									<td>{{ $p->name }}</td>
-									<td>{{ $p->institution->initials }}</td>
+									<td>{{ $i->initials }}</td>
+									<td>{{ $i->name }}</td>
 									<td>
-										
-										<form action="{{ route('projects.destroy', $p->id) }}" method="POST">
+										<form action="{{ route('institutions.destroy', $i->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/projects/{{$p->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir este projeto?')">Excluir</button>
+											<a href="/institutions/{{$i->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta instituição?')">Excluir</button>
 										</form>	
 									</td>							
 								</tr>
@@ -48,7 +47,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-					{{ $projects->links() }}
+					{{ $institutions->links() }}
                 </div>
         </div>
     </div>

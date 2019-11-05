@@ -23,11 +23,11 @@ class CreateRequestsTable extends Migration
             $table->text('description');
             $table->bigInteger('technician_id')->unsigned()->nullable();
             $table->foreign('technician_id')->references('id')->on('Users');
-            $table->enum('type', ['bug', 'new feature', 'improvement', 'request'])->nullable();
-            $table->enum('priority', ['critical', 'bigger', 'smaller', 'mild'])->nullable();
+            $table->enum('type', ['bug', 'nova funcionalidade', 'melhoria', 'pedido'])->nullable();
+            $table->enum('priority', ['crítica', 'maior', 'menor', 'leve'])->nullable();
             $table->date('deadline')->nullable();
-            $table->enum('status', ['to do', 'doing', 'blocked', 'done'])->default('to do');
-            $table->enum('delivered', ['on time', 'late'])->nullable();
+            $table->enum('status', ['a fazer', 'fazendo', 'bloqueada', 'feita'])->default('a fazer');
+            $table->enum('delivered', ['dentro do prazo', 'atrasado'])->nullable();
             $table->integer('function_points')->default(0);
             $table->timestamps();
         });
