@@ -86,9 +86,7 @@ class RequestController extends Controller
                 break;
         }
 		
-		$layout = (Auth::user()->type == 'administrador') ? 'layouts.app-administrador' : 'layouts.app';
-		
-		return view('requests-create', compact('projects', 'layout'));
+		return view('requests-create', compact('projects'));
     }
 
     /**
@@ -157,9 +155,7 @@ class RequestController extends Controller
 
         $historics->load('user');
 		
-		$layout = (Auth::user()->type == 'administrador') ? 'layouts.app-administrador' : 'layouts.app';
-
-        return view('requests-details', compact('request', 'historics', 'files', 'layout'));
+        return view('requests-details', compact('request', 'historics', 'files'));
     }
 
     /**

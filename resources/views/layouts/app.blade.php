@@ -49,7 +49,7 @@
             font-family: "Roboto", sans-serif;
             text-transform: uppercase;
             outline: 0;
-            background: #1abc9c;
+            background: #4CAF50;
             width: 100%;
             border: 0;
             padding: 15px;
@@ -90,12 +90,23 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">           
                     <ul class="navbar-nav ml-auto">
+						@if(Auth::user()->type == 'administrador')
+						<li class="nav-item">
+                                <a class="nav-link" href="/institutions">Instituições</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" href="/projects">Projetos</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users">Usuários</a>
+                            </li> 
+						@endif
                             <li class="nav-item">
                                 <a class="nav-link" href="/requests">Solicitações</a>
                             </li> 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ Auth::user()->name }} ({{Auth::user()->type}}) <span class="caret"></span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
