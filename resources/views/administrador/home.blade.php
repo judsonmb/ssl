@@ -2,7 +2,13 @@
 
 @section('content')
 <div class="container">
-        <h5>Mês/Ano corrente: {{date('m/Y')}}</h5>
+		<form class="form-inline" method="POST" action="home">
+			@csrf
+			<div class="form-group mx-sm-3 mb-2">
+				<input type="month" class="form-control" name="month" value='{{ $year }}-{{$month}}'>
+			</div>
+			<button type="submit" class="btn btn-primary mb-2">Mudar mês</button>
+		</form>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">

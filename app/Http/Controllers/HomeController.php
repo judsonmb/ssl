@@ -33,13 +33,22 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $month = Date('m');
-        $year = Date('Y');
-
+    public function index(Request $request)
+    {	
+		if($request->input('month') != null){
+			$monthYear = explode("-", $request->input('month'));
+			$month = $monthYear[1];
+			$year = $monthYear[0];
+		}else{
+			$month = Date('m');
+			$year = Date('Y');
+		}
+		
         switch(Auth::user()->type)
         {
+			
+		
+		
             case 'administrador': 
             case 'parceiro':
             
@@ -88,10 +97,15 @@ class HomeController extends Controller
 
                 $requestHistorics = RequestHistoric::with(['request', 'user'])
                 ->whereRaw('MONTH(action_datetime) = '. $month)
+				->whereRaw('YEAR(action_datetime) = '. $year)
                 ->orderBy('action_datetime', 'desc')
                 ->get();
-
-                return view(Auth::user()->type.'.home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'));
+                 
+				 
+				 
+                return view(Auth::user()->type.'.home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'))
+				->with('month', $month)
+				->with('year', $year);
                 break;
 
             case 'solicitante':
@@ -105,12 +119,14 @@ class HomeController extends Controller
 						->with('user')
 						->where('request_id', $requests)
 						->whereRaw('MONTH(action_datetime) = '. $month)
+						->whereRaw('YEAR(action_datetime) = '. $year)
 						->orderBy('action_datetime', 'desc')
 						->get();
 				}
-                
-
-                return view('requester.home', compact('requestHistorics'));
+				
+				return view('requester.home', compact('requestHistorics'))
+				->with('month', $month)
+				->with('year', $year);
                 break;
 
         }
