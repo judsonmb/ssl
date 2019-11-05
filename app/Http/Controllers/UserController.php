@@ -117,7 +117,7 @@ class UserController extends Controller
 
     public function editPassword()
     {
-        $layout = (Auth::user()->type = 'administrador') ? 'layouts.app-admin' : 'layouts.app';
+        $layout = (Auth::user()->type == 'administrador') ? 'layouts.app-administrador' : 'layouts.app';
 		
         return view('users-edit-password', compact('layout'));
     }

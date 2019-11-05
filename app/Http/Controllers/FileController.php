@@ -40,13 +40,17 @@ class FileController extends Controller
     {
 		$fileModel = new File();
 		
-		$fileModel->name = $file->getClientOriginalName();
+		$exists = File::where('name', 'LIKE', '%'.$file->getClientOriginalName().'%')->count();
+		
+		$fileModel->name = (!$exists) ? $file->getClientOriginalName() : '('. $exists . ')' . $file->getClientOriginalName();
 		
 		$fileModel->request_id = $request_id;
 		
 		Storage::put('files/'.$fileModel->name, file_get_contents($file));
 		
 		$fileModel->save();
+		
+		return $fileModel->name;
     }
 
     /**
