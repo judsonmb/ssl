@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {   
-		$users = User::with('institution')->where('active', 1)->orderby('name')->paginate(10);
+		$users = User::with('institution')->orderby('name')->paginate(10);
 		
         return view(Auth::user()->type.'.users', compact('users'));
     }
@@ -108,11 +108,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
 		
-        $user->active = '0';
+		$user->delete();
 		
-        $user->save();
-		
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('status', 'Usuário desativado com sucesso!');
     }
 
     public function editPassword()

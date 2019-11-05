@@ -22,9 +22,9 @@ class CreateUsersTable extends Migration
             $table->foreign('institution_id')->references('id')->on('Institutions')->ondelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default('$2y$10$IuXbbX7F6ma715YhJLnzFeRkeyHVk5b32shvh8EZynrVKmN68joOe');
-            $table->enum('active', [1, 0])->default(1);
             $table->rememberToken();
             $table->timestamps();
+			$table->softDeletes();
         });
     }
 
