@@ -11,14 +11,14 @@
                 </ol>
             </nav>  
             <div class="card">
-                <div class="card-header">
-                    <a href="/requests/create">
+                <div class="card-header" style="text-align: center;">
+                    <a href="/requests/create" class="float-left">
 						<button class="btn btn-xs btn-success">Criar</button>
-					</a>  
+					</a> 
+					<span >
+						Mostrando {{ $requests->count() }} registro(s). Total: {{ $requests->total() }}.
+					</span>
                 </div>
-				<div style="text-align: center">
-					Mostrando {{ $requests->count() }} registro(s). Total: {{ $requests->total() }}.
-				</div>
                 <div class="card-body">
                     <table class="table">
                         <thead class="thead-light">
@@ -43,7 +43,7 @@
 									</td>
 									<td>{{ $r->status }}</td>
 									<td>
-										<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary">Ver Detalhes</button></a>		
+										<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary"><i class="fas fa-eye"></i></button></a>		
 									</td>							
 								</tr>
 							@endforeach

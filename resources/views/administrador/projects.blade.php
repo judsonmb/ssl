@@ -11,20 +11,20 @@
                 </ol>
             </nav>  
             <div class="card">
-                <div class="card-header">
-                    <a href="/projects/create">
+                <div class="card-header" style="text-align: center;">
+                    <a href="/projects/create" class="float-left">
 						<button class="btn btn-xs btn-success">Criar</button>
-					</a>  
+					</a> 
+					<span >
+						Mostrando {{ $projects->count() }} registro(s). Total: {{ $projects->total() }}.
+					</span>
                 </div>
-				<div style="text-align: center">
-					Mostrando {{ $projects->count() }} registro(s). Total: {{ $projects->total() }}.
-				</div>
                 <div class="card-body">
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Nome</th>
-                                <th scope="col">Instituição</th>
+                                <th class="d-none d-md-table-cell" scope="col">Instituição</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -32,14 +32,14 @@
 							@foreach($projects as $p)
 								<tr>
 									<td>{{ $p->name }}</td>
-									<td>{{ $p->institution->initials }}</td>
+									<td class="d-none d-md-table-cell">{{ $p->institution->initials }}</td>
 									<td>
 										
 										<form action="{{ route('projects.destroy', $p->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/projects/{{$p->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir este projeto?')">Excluir</button>
+											<a href="/projects/{{$p->id}}/edit/"><button type="button" class="btn btn-xs btn-primary"><i class="fas fa-pen"></i></button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir este projeto?')"><i class="fas fa-trash"></i></button>
 										</form>	
 									</td>							
 								</tr>

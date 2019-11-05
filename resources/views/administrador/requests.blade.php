@@ -11,23 +11,24 @@
                 </ol>
             </nav>  
             <div class="card">
-                <div class="card-header">
-                    <a href="/requests/create">
+                <div class="card-header" style="text-align: center;">
+                    <a href="/requests/create" class="float-left">
 						<button class="btn btn-xs btn-success">Criar</button>
-					</a>  
+					</a> 
+					<span >
+						Mostrando {{ $requests->count() }} registro(s). Total: {{ $requests->total() }}.
+					</span>
                 </div>
-				<div style="text-align: center">
-					Mostrando {{ $requests->count() }} registro(s). Total: {{ $requests->total() }}.
-				</div>
+				
                 <div class="card-body">
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
 								<th scope="col">Título</th>
-                                <th scope="col">Solicitante</th>
-                                <th scope="col">Projeto</th>
-                                <th scope="col">Prazo</th>
-                                <th scope="col">Status</th>
+                                <th class="d-none d-md-table-cell" scope="col">Solicitante</th>
+                                <th class="d-none d-md-table-cell" scope="col">Projeto</th>
+                                <th class="d-none d-md-table-cell" scope="col">Prazo</th>
+                                <th class="d-none d-md-table-cell" scope="col">Status</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -35,20 +36,20 @@
 							@foreach($requests as $r)
 								<tr>
 									<td>{{ $r->title }}</td>
-									<td>{{ $r->user->name }}</td>
-									<td>{{ $r->project->name }}</td>
-									<td>{{ ($r->deadline != null) 
+									<td class="d-none d-md-table-cell">{{ $r->user->name }}</td>
+									<td class="d-none d-md-table-cell">{{ $r->project->name }}</td>
+									<td class="d-none d-md-table-cell">{{ ($r->deadline != null) 
 											? date('d/m/Y', strtotime($r->deadline)) 
 											: 'Não definido' }}
 									</td>
-									<td>{{ $r->status }}</td>
+									<td class="d-none d-md-table-cell">{{ $r->status }}</td>
 									<td>
 										<form action="{{ route('requests.destroy', $r->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary">Ver detalhes</button></a>
-											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Atualizar</button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta solicitação?')">Excluir</button>
+											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary"><i class="fas fa-eye"></i></button></a>
+											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary"><i class="fas fa-pen"></i></button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta solicitação?')"><i class="fas fa-trash"></i></button>
 										</form>	
 									</td>							
 								</tr>

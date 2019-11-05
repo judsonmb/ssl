@@ -11,23 +11,23 @@
                 </ol>
             </nav>  
             <div class="card">
-                <div class="card-header">
-                    <a href="/users/create">
+                <div class="card-header" style="text-align: center;">
+                    <a href="/users/create" class="float-left">
 						<button class="btn btn-xs btn-success">Criar</button>
-					</a>  
+					</a> 
+					<span >
+						Mostrando {{ $users->count() }} registro(s). Total: {{ $users->total() }}.
+					</span>
                 </div>
-				<div style="text-align: center">
-					Mostrando {{ $users->count() }} registro(s). Total: {{ $users->total() }}.
-				</div>
                 <div class="card-body">
                     <table class="table">
 					
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Nome</th>
-                                <th scope="col">E-mail</th>
-                                <th scope="col">Instituição</th>
-                                <th scope="col">Tipo</th>
+                                <th class="d-none d-md-table-cell" scope="col">E-mail</th>
+                                <th class="d-none d-md-table-cell" scope="col">Instituição</th>
+                                <th class="d-none d-md-table-cell" scope="col">Tipo</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -35,15 +35,15 @@
 							@foreach($users as $u)
 								<tr>
 									<td>{{ $u->name }}</td>
-									<td>{{ $u->email }}</td>	
-									<td>{{ $u->institution->initials }}</td>	
-									<td>{{ $u->type }}</td>	
+									<td class="d-none d-md-table-cell">{{ $u->email }}</td>	
+									<td class="d-none d-md-table-cell">{{ $u->institution->initials }}</td>	
+									<td class="d-none d-md-table-cell">{{ $u->type }}</td>	
 									<td>	
 										<form action="{{ route('users.destroy', $u->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/users/{{$u->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja desativar este usuário?')">Desativar</button>
+											<a href="/users/{{$u->id}}/edit/"><button type="button" class="btn btn-xs btn-primary"><i class="fas fa-pen"></i></button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja desativar este usuário?')"><i class="fas fa-trash"></i></button>
 										</form>	
 									</td>							
 								</tr>

@@ -11,20 +11,20 @@
                 </ol>
             </nav>  
             <div class="card">
-                <div class="card-header">
-                    <a href="/institutions/create">
+                <div class="card-header" style="text-align: center;">
+                    <a href="/institutions/create" class="float-left">
 						<button class="btn btn-xs btn-success">Criar</button>
-					</a>  
+					</a> 
+					<span >
+						Mostrando {{ $institutions->count() }} registro(s). Total: {{ $institutions->total() }}.
+					</span>
                 </div>
-				<div style="text-align: center">
-					Mostrando {{ $institutions->count() }} registro(s). Total: {{ $institutions->total() }}.
-				</div>
                 <div class="card-body">
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
 								<th scope="col">Abreviação</th>
-                                <th scope="col">Nome</th>
+                                <th class="d-none d-md-table-cell" scope="col">Nome</th>
                                 <th scope="col">Ações</th>
                             </tr>
                         </thead>
@@ -32,13 +32,13 @@
 							@foreach($institutions as $i)
 								<tr>
 									<td>{{ $i->initials }}</td>
-									<td>{{ $i->name }}</td>
+									<td class="d-none d-md-table-cell">{{ $i->name }}</td>
 									<td>
 										<form action="{{ route('institutions.destroy', $i->id) }}" method="POST">
 											@csrf
 											@method('DELETE')
-											<a href="/institutions/{{$i->id}}/edit/"><button type="button" class="btn btn-xs btn-primary">Editar</button></a>
-											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta instituição?')">Excluir</button>
+											<a href="/institutions/{{$i->id}}/edit/"><button type="button" class="btn btn-xs btn-primary"><i class="fas fa-pen"></i></button></a>
+											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta instituição?')"><i class="fas fa-trash"></i></button>
 										</form>	
 									</td>							
 								</tr>
