@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Sistema de Solicitações da LinKn'),
+    'name' => env('APP_NAME', 'Solicitações da LinKn'),
 
     /*
     |--------------------------------------------------------------------------

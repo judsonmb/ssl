@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'contato@linkn.com.br'),
-        'name' => env('MAIL_FROM_NAME', 'Sistema de Solicitações da LinKn'),
+        'name' => env('MAIL_FROM_NAME', 'Solicitações LinKn'),
     ],
 
     /*
