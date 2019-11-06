@@ -1,31 +1,82 @@
-@extends('layouts.app')
+@extends('layouts.login')
 
 @section('content')
 
 <style>
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
-
-.login-page {
-  width: 360px;
-  padding: 3% 0 0;
-  margin: auto;
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.login-form-1{
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+	background-color: white;
+}
+.login-form-2{
+    padding: 5%;
+    background: #1abc9c;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-2 h3{
+    text-align: center;
+    color: #fff;
+}
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+.login-form-2 .btnSubmit{
+    font-weight: 600;
+    color: #0062cc;
+    background-color: #fff;
+}
+.login-form-2 .ForgetPwd{
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
 }
 
-#linknBrain{
-    margin-top:-70px;
-    margin-left:-5px;
-}
-
-#rememberLabel{
-    position: absolute;
-    margin-left: 40px;
-    margin-top:  -5px;
-}
 </style>
-
-<div class="login-page">
+<div class="container login-container">
+	<div class="row">
+		<div class="col-md-6 login-form-1" style="text-align:center;">
+			<img src="{{ url('/img/linkn.png') }}"></img>
+		</div>
+		<div class="col-md-6 login-form-2">
+			<h3>Bem vindo ao Sistema de Solicitações LinKn</h3>
+			<form method="POST" action="{{ route('login') }}">
+				@csrf
+				<div class="form-group">
+					<input type="email" class="form-control" placeholder="E-mail *" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus />
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="Senha *" class="@error('password') is-invalid @enderror" name="password" required autocomplete="current-password" />
+				</div>
+				@error('email')
+                    <div class="error"><strong>{{ $message }}</strong></div><br>
+                @enderror
+                @error('password')
+                    <div class="error"><strong>{{ $message }}</strong></div><br>
+                @enderror
+				<div class="form-group">
+					<input type="submit" class="btnSubmit" value="Login" />
+				</div>
+				<div class="form-group">
+					<a href="{{ route('password.request') }}" class="ForgetPwd">Esqueceu sua senha?</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--<div class="login-page">
     <div class="form">
-        <img id="linknBrain" src="{{url('/img/linkn-cerebro.png')}}" alt="Image" width="170" height="170"/><br><br>
         <small>Seja bem vindo ao sistema de solicitações da LinKn!</small>
 		<h3>Por favor, efetue login.</h3>
         <form class="login-form" method="POST" action="{{ route('login') }}">
