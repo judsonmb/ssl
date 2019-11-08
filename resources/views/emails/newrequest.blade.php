@@ -3,5 +3,5 @@
 <strong>Título</strong>: <i>{{ $requestTitle }}</i><br>
 <strong>Descrição</strong>: <i>{{ $requestDescription }}</i><br><br>
 
-Acesse <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
+Clique <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
 </div>

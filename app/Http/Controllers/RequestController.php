@@ -132,7 +132,7 @@ class RequestController extends Controller
         
 		$fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
 		
-        Mail::to('judsonmelobandeira@gmail.com')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
+        Mail::to('contato@linkn.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
 		
 		Mail::to(Auth::user()->email)->send(new SendRequestConfirmMail(Auth::user()->name, $requestModel->id));
 

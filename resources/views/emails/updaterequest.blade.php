@@ -3,5 +3,5 @@ Sua solicitação sobre <i><strong>{{$requestModel->title}}</strong></i> foi atu
 
 {!! $body !!} <br><br>
 
-Acesse <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
+Clique <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
 </div>
