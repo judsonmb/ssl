@@ -41,7 +41,7 @@ class NewRequestMail extends Mailable
         {
             return $this
                 ->subject($this->userName . ' enviou uma solicitação.')
-                ->attach(storage_path("app\\files\\".$this->fileName))
+                ->attach(storage_path("app/files/".$this->fileName))
                 ->view('emails.newrequest');
         }else
         {
