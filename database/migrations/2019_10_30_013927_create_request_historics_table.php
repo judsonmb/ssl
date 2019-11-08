@@ -14,9 +14,10 @@ class CreateRequestHistoricsTable extends Migration
     public function up()
     {
         Schema::create('request_historics', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->engine = 'InnoDB';
+			$table->bigIncrements('id');
             $table->bigInteger('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('requests')->ondelete('cascade');
+            $table->foreign('request_id')->references('id')->on('requests')->onDelete('CASCADE');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('message')->default('enviou uma solicitação.');

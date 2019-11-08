@@ -14,11 +14,12 @@ class CreateRequestsTable extends Migration
     public function up()
     {
         Schema::create('requests', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->engine = 'InnoDB';
+			$table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('project_id')->unsigned();
-            $table->foreign('project_id')->references('id')->on('projects')->ondelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('CASCADE');
             $table->string('title');
             $table->text('description');
             $table->bigInteger('technician_id')->unsigned()->nullable();

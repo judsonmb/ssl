@@ -14,10 +14,11 @@ class CreateProjectsTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->engine = 'InnoDB';
+			$table->bigIncrements('id');
             $table->string('name');
             $table->bigInteger('institution_id')->unsigned();
-            $table->foreign('institution_id')->references('id')->on('institutions')->ondelete('cascade');
+            $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

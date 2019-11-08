@@ -14,10 +14,11 @@ class CreateFilesTable extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->engine = 'InnoDB';
+			$table->bigIncrements('id');
 			$table->string('name')->unique();
 			$table->bigInteger('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('requests')->ondelete('cascade');
+            $table->foreign('request_id')->references('id')->on('requests')->onDelete('CASCADE');
         });
     }
 

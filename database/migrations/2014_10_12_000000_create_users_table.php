@@ -14,12 +14,13 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->engine = 'InnoDB';
+			$table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
             $table->enum('type', ['administrador', 'parceiro', 'solicitante']);
             $table->bigInteger('institution_id')->unsigned();
-            $table->foreign('institution_id')->references('id')->on('institutions')->ondelete('cascade');
+            $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('CASCADE');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default('$2y$10$IuXbbX7F6ma715YhJLnzFeRkeyHVk5b32shvh8EZynrVKmN68joOe');
             $table->rememberToken();
