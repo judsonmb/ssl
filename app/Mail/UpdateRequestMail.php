@@ -20,6 +20,7 @@ class UpdateRequestMail extends Mailable
     public $subject;
     public $body;
 	public $requester;
+	public $requestId;
 
     /**
      * Create a new message instance.
@@ -71,6 +72,8 @@ class UpdateRequestMail extends Mailable
 		$this->body .= "Pontos de Função: " . $this->request->input('function_points') . "<br>";
 		
 		$this->requester = $this->requestModel->user->name;
+		
+		$this->requestId = $this->requestModel->id;
 		
 		if($this->request->file('file') != null)
 			 $this->attach(storage_path("app/files/".$this->request->file('file')->getClientOriginalName()));

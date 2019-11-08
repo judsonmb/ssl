@@ -27,6 +27,10 @@ use App\Mail\NewRequestMail;
 
 use App\Mail\UpdateRequestMail;
 
+use App\Mail\SendRequestConfirmMail;
+
+use App\Mail\ResponsibleTechnicianMail;
+
 class RequestController extends Controller
 {
     /**
@@ -128,7 +132,9 @@ class RequestController extends Controller
         
 		$fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
 		
-        Mail::to('contato@linkn.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description')));
+        Mail::to('judsonmelobandeira@gmail.com')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
+		
+		Mail::to(Auth::user()->email)->send(new SendRequestConfirmMail(Auth::user()->name, $requestModel->id));
 
         return redirect()->route('requests.index')->with('status', 'Solicitação enviada com sucesso!');
     }
@@ -190,6 +196,8 @@ class RequestController extends Controller
 		
 		$requestModel->load('user');
 		
+		$requestModel->load('technician');
+		
         $requestModel->load('project');
 		
 		if($request->file('file') != null)
@@ -234,6 +242,14 @@ class RequestController extends Controller
 		$requestModel->deadline = $request->input('deadline');
 		
 		$requestModel->status = $request->input('status');	
+		
+		if(($requestModel->technician_id != $request->input('technician_id')) and ($request->input('technician_id') != null)){
+			
+			$technician = User::find($request->input('technician_id'));
+		
+			Mail::to($technician->email)->send(new ResponsibleTechnicianMail($technician->name, $requestModel->title, $requestModel->id));
+			
+		}
 
 		$requestModel->technician_id = $request->input('technician_id');	
 		

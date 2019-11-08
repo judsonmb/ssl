@@ -16,18 +16,20 @@ class NewRequestMail extends Mailable
     public $fileName;
 	public $requestTitle;
 	public $requestDescription;
+	public $requestId;
     
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(String $userName, String $fileName, String $requestTitle, String $requestDescription)
+    public function __construct(String $userName, String $fileName, String $requestTitle, String $requestDescription, $requestId)
     {
         $this->userName = $userName;
         $this->fileName = $fileName;
 		$this->requestTitle = $requestTitle;
 		$this->requestDescription = $requestDescription;
+		$this->requestId = $requestId;
     }
 
     /**
