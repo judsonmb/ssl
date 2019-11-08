@@ -124,7 +124,7 @@ class HomeController extends Controller
 						->get();
 				}
 				
-				return view('requester.home', compact('requestHistorics'))
+				return view(Auth::user()->type.'.home', compact('requestHistorics'))
 				->with('month', $month)
 				->with('year', $year);
                 break;
