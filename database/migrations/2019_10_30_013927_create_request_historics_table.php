@@ -21,7 +21,7 @@ class CreateRequestHistoricsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('message')->default('enviou uma solicitação.');
             $table->enum('action',['creation', 'update', 'completed'])->default('creation');
-            $table->dateTime('action_datetime')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamps();
         });
     }
 	

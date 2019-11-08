@@ -96,9 +96,9 @@ class HomeController extends Controller
                 ->get();
 
                 $requestHistorics = RequestHistoric::with(['request', 'user'])
-                ->whereRaw('MONTH(action_datetime) = '. $month)
-				->whereRaw('YEAR(action_datetime) = '. $year)
-                ->orderBy('action_datetime', 'desc')
+                ->whereRaw('MONTH(created_at) = '. $month)
+				->whereRaw('YEAR(created_at) = '. $year)
+                ->orderBy('created_at', 'desc')
                 ->get();
                  
 				 
@@ -118,9 +118,9 @@ class HomeController extends Controller
 					$requestHistorics = RequestHistoric::with('request')
 						->with('user')
 						->where('request_id', $requests)
-						->whereRaw('MONTH(action_datetime) = '. $month)
-						->whereRaw('YEAR(action_datetime) = '. $year)
-						->orderBy('action_datetime', 'desc')
+						->whereRaw('MONTH(created_at) = '. $month)
+						->whereRaw('YEAR(created_at) = '. $year)
+						->orderBy('created_at', 'desc')
 						->get();
 				}
 				

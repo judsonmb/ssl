@@ -13,7 +13,7 @@ class RequestHistoric extends Model
      * @var array
      */
     protected $fillable = [
-        'request_id', 'user_id', 'message', 'action', 'action_datetime',
+        'request_id', 'user_id', 'message', 'action',
     ];
 
     /**

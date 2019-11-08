@@ -143,7 +143,7 @@ class RequestController extends Controller
     {
         $request = RequestModel::find($id);
         
-		$historics = RequestHistoric::where('request_id', $id)->orderBy('action_datetime', 'desc')->get();
+		$historics = RequestHistoric::where('request_id', $id)->orderBy('created_at', 'desc')->get();
 
         $files = File::where('request_id', $id)->get();
 		
