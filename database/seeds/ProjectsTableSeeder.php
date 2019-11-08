@@ -31,5 +31,12 @@ class ProjectsTableSeeder extends Seeder
                 'institution_id' => 3
             ]           
         );
+		
+		DB::table('projects')->insert(
+            [
+                'name' => 'Parceria',
+                'institution_id' => 2
+            ]           
+        );
     }
 }
