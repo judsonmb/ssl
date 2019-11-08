@@ -73,7 +73,7 @@ class UpdateRequestMail extends Mailable
 		$this->requester = $this->requestModel->user->name;
 		
 		if($this->request->file('file') != null)
-			 $this->attach(storage_path("app\\files\\".$this->request->file('file')->getClientOriginalName()));
+			 $this->attach(storage_path("app/files/".$this->request->file('file')->getClientOriginalName()));
 		 
 		return $this
                 ->subject($this->subject)
