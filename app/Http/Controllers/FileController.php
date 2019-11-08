@@ -46,7 +46,7 @@ class FileController extends Controller
 		
 		$fileModel->request_id = $request_id;
 		
-		Storage::put('files/'.$fileModel->name, file_get_contents($file));
+		Storage::put('files\\'.$fileModel->name, file_get_contents($file));
 		
 		$fileModel->save();
 		
