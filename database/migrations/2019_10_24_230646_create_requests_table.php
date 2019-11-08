@@ -16,13 +16,13 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('Users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('project_id')->unsigned();
-            $table->foreign('project_id')->references('id')->on('Projects')->ondelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->ondelete('cascade');
             $table->string('title');
             $table->text('description');
             $table->bigInteger('technician_id')->unsigned()->nullable();
-            $table->foreign('technician_id')->references('id')->on('Users');
+            $table->foreign('technician_id')->references('id')->on('users');
             $table->enum('type', ['bug', 'nova funcionalidade', 'melhoria', 'pedido'])->nullable();
             $table->enum('priority', ['crítica', 'maior', 'menor', 'leve'])->nullable();
             $table->date('deadline')->nullable();

@@ -17,7 +17,7 @@ class CreateFilesTable extends Migration
             $table->bigIncrements('id');
 			$table->string('name')->unique();
 			$table->bigInteger('request_id')->unsigned();
-            $table->foreign('request_id')->references('id')->on('Requests')->ondelete('cascade');
+            $table->foreign('request_id')->references('id')->on('requests')->ondelete('cascade');
         });
     }
 

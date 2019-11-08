@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->enum('type', ['administrador', 'parceiro', 'solicitante']);
             $table->bigInteger('institution_id')->unsigned();
-            $table->foreign('institution_id')->references('id')->on('Institutions')->ondelete('cascade');
+            $table->foreign('institution_id')->references('id')->on('institutions')->ondelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default('$2y$10$IuXbbX7F6ma715YhJLnzFeRkeyHVk5b32shvh8EZynrVKmN68joOe');
             $table->rememberToken();

@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->bigInteger('institution_id')->unsigned();
-            $table->foreign('institution_id')->references('id')->on('Institutions')->ondelete('cascade');
+            $table->foreign('institution_id')->references('id')->on('institutions')->ondelete('cascade');
             $table->timestamps();
         });
     }
