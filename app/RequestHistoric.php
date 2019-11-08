@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequestHistoric extends Model
 {
-    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
