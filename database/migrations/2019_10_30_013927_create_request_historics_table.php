@@ -20,7 +20,7 @@ class CreateRequestHistoricsTable extends Migration
             $table->foreign('request_id')->references('id')->on('requests')->onDelete('CASCADE');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->text('description');
+            $table->text('message');
             $table->enum('action',['creation', 'update', 'message', 'completed'])->default('creation');
             $table->timestamps();
         });
