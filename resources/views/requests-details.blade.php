@@ -12,30 +12,46 @@
                 </ol>
             </nav> 
         </div>
+		<div class="col-md-10">
+			<form method="POST" action="/requests/{{ $request->id }}/message">
+				@csrf
+				<div class="row">
+					<div class="col-md-8">
+						<input placeholder="escreva uma mensagem..." type="text" class="form-control" name="message" value="{{ old('message') }}">
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary mb-2">Enviar</button>
+					</div>
+					@error('message')
+						<div class="error">{{ $message }}</div>
+					@enderror
+				</div>
+			</form>
+		</div>
 		<div class="col-md-6">    
             <div class="card">
                 <div class="card-header">
 					<h5>Informações</h5>
                 </div>
                 <div class="card-body">
-                    Título: {{ $request->title }}<br><br>
-                    Descrição: {{ $request->description }}<br><br>
-                    Enviada por: {{ $request->user->name }}<br>
-                    Em: {{ date('d/m/Y H:i:s', strtotime($request->created_at)) }}<br><br>
+                    <strong>Título</strong>: {{ $request->title }}<br><br>
+                    <strong>Descrição</strong>: {{ $request->description }}<br><br>
+                    <strong>Enviada por</strong>: {{ $request->user->name }}<br>
+                    <strong>Em</strong>: {{ date('d/m/Y H:i:s', strtotime($request->created_at)) }}<br><br>
                     
 					
-					Prazo: {{ ($request->deadline != null) 
+					<strong>Prazo</strong>: {{ ($request->deadline != null) 
 								? date('d/m/Y', strtotime($request->deadline)) 
 								: 'Ainda não definido' }}<br><br>
 					
-					Técnico responsável: {{ (isset($request->technician->name)) ? $request->technician->name : "Ainda não definido"}}<br>
-					Tipo: {{ $request->type }}<br>
-					Prioridade: {{ $request->priority }}<br>
-					Pontos de função: {{ $request->function_points }}<br>
-					Status: {{ $request->status }}<br>
-					Entrega: {{ $request->delivered }}<br><br>
+					<strong>Técnico responsável</strong>: {{ (isset($request->technician->name)) ? $request->technician->name : "Ainda não definido"}}<br>
+					<strong>Tipo</strong>: {{ $request->type }}<br>
+					<strong>Prioridade</strong>: {{ $request->priority }}<br>
+					<strong>Pontos de função</strong>: {{ $request->function_points }}<br>
+					<strong>Status</strong>: {{ $request->status }}<br>
+					<strong>Entrega</strong>: {{ $request->delivered }}<br><br>
 					
-					Arquivos:<br>
+					<strong>Arquivos</strong>:<br>
 					
 					@foreach($files as $f)
 						- <a href="/download/{{$f->name}}">{{$f->name}}</a><br>
@@ -54,11 +70,10 @@
 								@foreach($historics as $r)
 									<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
 										<div class="d-flex w-100 justify-content-between">
-										<h5 class="mb-1">{{$r->user->name}}</h5>
+										{{$r->user->name}}
 											<small>{{date('d/m/Y H:i:s', strtotime($r->created_at))}}</small>
 										</div>
-										<p class="mb-1">{{$r->message}}</p>
-										<small>solicitação: {{$r->request->title}} feita por {{$r->request->user->name}}</small>
+										<h4><p class="mb-1">{{$r->message}}</p></h4>
 									</a>
 									<hr>
 								@endforeach

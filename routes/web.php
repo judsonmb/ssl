@@ -27,6 +27,8 @@ Route::post('/home', 'HomeController@index')->name('home');
 Route::middleware(['auth'])->group(function () {
 
     Route::resource('/requests', 'RequestController');
+	
+    Route::post('/requests/{id}/message', 'RequestController@sendMessage');
 
     Route::get('/password/edit', 'UserController@editPassword')->name('edit-password');
     

@@ -39,13 +39,21 @@ class RequestHistoricController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request id and user id
      */
-    public function store($requestId, $userId)
+    public function store($requestId, $userId, $message = null, $action = null)
     {
         $requestHistoric = new RequestHistoric();
 		
         $requestHistoric->request_id = $requestId;
 		
         $requestHistoric->user_id = $userId;
+		
+		if($message != null){
+			$requestHistoric->message = $message;
+		}
+		
+		if($action != null){
+			$requestHistoric->action = $action;
+		}
 		
         $requestHistoric->save();
     }

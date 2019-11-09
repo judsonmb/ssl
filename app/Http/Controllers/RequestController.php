@@ -31,6 +31,8 @@ use App\Mail\SendRequestConfirmMail;
 
 use App\Mail\ResponsibleTechnicianMail;
 
+use App\Mail\RequestMessageMail;
+
 class RequestController extends Controller
 {
     /**
@@ -44,7 +46,9 @@ class RequestController extends Controller
 		switch(Auth::user()->type){
 
             case 'administrador':
+						
                 $requests = RequestModel::where('status', '!=', 'feita')->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
+				
                 break;
 				
             case 'parceiro':
@@ -259,6 +263,45 @@ class RequestController extends Controller
 		
         return redirect()->route('requests.index')->with('status', 'Solicitação atualizada com sucesso!');
     }
+	
+	public function sendMessage(Request $request, $id){
+		
+		$validatedData = $request->validate([
+			'message' => 'required|max:255',
+		]);
+		
+		$message = 'enviou uma mensagem: ' . $request->input('message');
+		
+		$requestModel = RequestModel::with(['user', 'technician'])->find($id);
+		
+		$r = new RequestHistoricController();
+		
+		$r->store($id, Auth::user()->id, $message, 'message');
+		
+		if(Auth::user()->type == 'administrador'){
+			
+			$email = $requestModel->user->email;
+			$name = $requestModel->user->name;
+		
+		}else{
+			
+			$name = $requestModel->technician->name;
+			
+			if($requestModel->technician != null){
+				
+				$email = $requestModel->technician->email;
+				
+			}else{
+				
+				$email = 'contato@linkn.com.br';
+			}
+		}
+		
+		Mail::to($email)->send(new RequestMessageMail($name, $requestModel->title, $requestModel->id, $message));
+		
+		return redirect()->route('requests.show', $id)->with('status', 'Mensagem enviada com sucesso!');
+		
+	}
 
 
     /**
