@@ -136,9 +136,9 @@ class RequestController extends Controller
         
 		$fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
 		
-        Mail::to('contato@linkn.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
+        Mail::to('judsonmelobandeira@gmail.com')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
 		
-		Mail::to(Auth::user()->email)->send(new SendRequestConfirmMail(Auth::user()->name, $requestModel->id));
+		Mail::to(Auth::user()->email)->send(new SendRequestConfirmMail(Auth::user()->name, $request->input('title'), $requestModel->id));
 
         return redirect()->route('requests.index')->with('status', 'Solicitação enviada com sucesso!');
     }
@@ -231,7 +231,9 @@ class RequestController extends Controller
 			
 			} 
 			
-			Mail::to($requestModel->user->email)->send(new UpdateRequestMail($requestModel, $request));
+            Mail::to($requestModel->user->email)
+            ->send(new UpdateRequestMail($requestModel->user->name, $requestModel->title, 
+            $requestModel->status, $request->file('file'), $requestModel->id));
 			
 		}	
 		
@@ -270,13 +272,13 @@ class RequestController extends Controller
 			'message' => 'required|max:255',
 		]);
 		
-		$message = 'enviou uma mensagem: ' . $request->input('message');
+		$message = $request->input('message');
 		
 		$requestModel = RequestModel::with(['user', 'technician'])->find($id);
 		
 		$r = new RequestHistoricController();
 		
-		$r->store($id, Auth::user()->id, $message, 'message');
+		$r->store($id, Auth::user()->id, 'enviou uma mensagem: ' . $message, 'message');
 		
 		if(Auth::user()->type == 'administrador'){
 			
@@ -297,7 +299,7 @@ class RequestController extends Controller
 			}
 		}
 		
-		Mail::to($email)->send(new RequestMessageMail($name, $requestModel->title, $requestModel->id, $message));
+		Mail::to($email)->send(new RequestMessageMail($name, $requestModel->title, $message, $requestModel->id));
 		
 		return redirect()->route('requests.show', $id)->with('status', 'Mensagem enviada com sucesso!');
 		

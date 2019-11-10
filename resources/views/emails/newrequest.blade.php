@@ -1,7 +1,16 @@
-<div>Hi, LinKn!<br>
-{{ $userName }} enviou uma nova solicitação.<br><br>
-<strong>Título</strong>: <i>{{ $requestTitle }}</i><br>
-<strong>Descrição</strong>: <i>{{ $requestDescription }}</i><br><br>
+@extends('layouts.email')
 
-Clique <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
+@section('content')
+<div id="emailBody">
+
+    <div>Oi, <span class="green">LinKn</span>!</div>
+
+    <div>
+        <h3>{{ $sender }} enviou uma solicitação.</h3>
+        <p>{{ $title }}</p>
+        <p>{{ $description }}</p>
+    </div>
+
+    <div>Clique <a href="ssl.linkn.com.br/requests/{{ $id }}">aqui</a> para ver mais detalhes.</div>
+    
 </div>

@@ -11,20 +11,21 @@ class ResponsibleTechnicianMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $userName;
-    public $requestTitle;
-    public $requestId;
+    public $recipient;
+    public $title;
+    public $id;
+    public $image = 'linkn-cerebro.png';
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($userName, $requestTitle, $requestId)
+    public function __construct(String $recipient, String $title, Int $id)
     {
-        $this->userName = $userName;
-        $this->requestTitle = $requestTitle;
-        $this->requestId = $requestId;
+        $this->recipient = $recipient;
+        $this->title = $title;
+        $this->id = $id;
     }
 
     /**
@@ -35,7 +36,7 @@ class ResponsibleTechnicianMail extends Mailable
     public function build()
     {
         return $this
-			->subject('Uma solicitação foi atribuída para você')
+			->subject('Uma solicitação foi atribuída à você')
 			->view('emails.responsibletechnician');
     }
 }

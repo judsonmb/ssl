@@ -11,18 +11,22 @@ class SendRequestConfirmMail extends Mailable
 {
     use Queueable, SerializesModels;
 	
-	public $userName;
-	public $requestId;
+    public $recipient;
+    public $title;
+    public $id;
+    public $image = 'linkn-cerebro.png';
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($userName, $requestId)
+    public function __construct(String $recipient, String $title, Int $id)
     {
-        $this->userName = $userName;
-        $this->requestId = $requestId;
+        $this->recipient = $recipient;
+        $this->title = $title;
+        $this->id = $id;
     }
 
     /**

@@ -71,13 +71,7 @@
         .clearfix{
             margin-top:15px;
             margin-bottom:15px;
-        }
-		
-		.btn {
-		  background-color: #1abc9c;
-		}
-
-        
+        }        
     </style>
 </head>
 <body>

@@ -1,9 +1,15 @@
-<div>Olá, {{ $userName }}!<br>
+@extends('layouts.email')
 
-A solicitação sobre <i><strong>{{$requestTitle}}</strong></i> recebeu uma mensagem!<br><br>
+@section('content')
+<div id="emailBody">
 
-<h4>{{ $messageMail }}</h4><br><br>
+    <div>Oi, {{ $recipient }}!</div>
 
+    <div>
+        <h3>A solicitação sobre <span class="green"> {{ $title }} </span> recebeu uma mensagem.</h3>
+        <p> {!! $msg !!} </p>
+    </div>
 
-Clique <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
+    <div>Clique <a href="ssl.linkn.com.br/requests/{{ $id }}">aqui</a> para ver mais detalhes.</div>
+    
 </div>

@@ -1,5 +1,14 @@
-<div>Oi, {{ $userName }}!<br>
-Você foi atribuído(a) para executar a solicitação <strong>{{ $requestTitle }}</strong><br><br>
+@extends('layouts.email')
 
-Clique <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
+@section('content')
+<div id="emailBody">
+
+    <div>Oi, {{ $recipient }}!</div>
+
+    <div>
+        <h3>Você foi atribuído para executar a solicitação <span class="green"> {{ $title }}. </span></h3>
+    </div>
+
+    <div>Clique <a href="ssl.linkn.com.br/requests/{{ $id }}">aqui</a> para ver mais detalhes.</div>
+
 </div>

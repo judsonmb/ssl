@@ -11,22 +11,24 @@ class RequestMessageMail extends Mailable
 {
     use Queueable, SerializesModels;
 	
-	public $userName;
-	public $requestTitle;
-	public $requestId;
-	public $messageMail;
+	public $recipient;
+	public $title;    
+	public $msg;
+    public $id;
+    public $image = 'linkn-cerebro.png';
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($userName, $requestTitle, $requestId, $message)
+    public function __construct(String $recipient, String $title, String $msg, Int $id)
     {
-        $this->userName = $userName;
-        $this->requestTitle = $requestTitle;
-        $this->requestId = $requestId;
-        $this->messageMail = $message;
+        $this->recipient = $recipient;
+        $this->title = $title;
+        $this->msg = $msg;
+        $this->id = $id;
     }
 
     /**

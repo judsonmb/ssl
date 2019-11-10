@@ -12,24 +12,28 @@ class NewRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-	public $userName;
-    public $fileName;
-	public $requestTitle;
-	public $requestDescription;
-	public $requestId;
+	public $sender;
+    public $file;
+	public $title;
+	public $description;
+    public $id;
+    public $image = 'linkn-cerebro.png';
+
     
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(String $userName, String $fileName, String $requestTitle, String $requestDescription, $requestId)
+    public function __construct(String $sender, String $file, String $title, 
+    String $description, Int $id)
     {
-        $this->userName = $userName;
-        $this->fileName = $fileName;
-		$this->requestTitle = $requestTitle;
-		$this->requestDescription = $requestDescription;
-		$this->requestId = $requestId;
+        $this->sender = $sender;
+        $this->file = $file;
+		$this->title = $title;
+		$this->description = $description;
+        $this->id = $id;
+        
     }
 
     /**
@@ -39,16 +43,16 @@ class NewRequestMail extends Mailable
      */
     public function build()
     {		
-        if($this->fileName != "")
+        if($this->file != "")
         {
             return $this
-                ->subject($this->userName . ' enviou uma solicitação.')
-                ->attach(storage_path("app/files/".$this->fileName))
+                ->subject($this->sender . ' enviou uma solicitação.')
+                ->attach(storage_path("app/files/".$this->file))
                 ->view('emails.newrequest');
         }else
         {
             return $this
-                ->subject($this->userName . ' enviou uma solicitação.')
+                ->subject($this->sender . ' enviou uma solicitação.')
                 ->view('emails.newrequest');
         }
         

@@ -15,22 +15,27 @@ class UpdateRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $requestModel;
-    public $request;
-    public $subject;
-    public $body;
-	public $requester;
-	public $requestId;
+    public $recipient;
+    public $title;
+    public $status;
+    public $file;
+    public $id;
+    public $image = 'linkn-cerebro.png';
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(RequestModel $requestModel, $request)
+    public function __construct(String $recipient, String $title, 
+    String $status, $file, Int $id)
     {
-        $this->requestModel = $requestModel;
-        $this->request = $request;
+        $this->recipient = $recipient;
+        $this->title = $title;
+        $this->status = $status;
+        $this->file = $file;
+        $this->id = $id;
     }
 
     /**
@@ -40,46 +45,11 @@ class UpdateRequestMail extends Mailable
      */
     public function build()
     {   
-		$this->subject = 
-			(($this->requestModel->status != $this->request->input('status')) && 
-				($this->request->input('status') == 'feita')) ? 'Sua solicitação foi feita!' : 'O status da sua solicitação foi atualizado';
-	
-		$this->body = "O status da sua solicitação foi atualizado para <h2>" . $this->request->input('status') . "</h2>";
-		
-		$this->body .= "Detalhes:<br>";
-            
-		$this->body .= "Projeto: " . $this->requestModel->project->name . "<br>";
-		
-		$technician = User::find($this->request->input('technician_id'));
-		
-        $technicianName = ($technician == null) ? "Ainda não definido" : $technician->name;
-	
-		$this->body .= "Técnico Responsável: " . $technicianName . "<br>";
-	
-		$this->body .= "Tipo: " . $this->request->input('type') . "<br>";
-		
-		$this->body .= "Prioridade: " . $this->request->input('priority') . "<br>";
-		
-		if($this->request->input('deadline') != null){
-			$deadline = new \DateTime($this->request->input('deadline'));
-			$deadline = $deadline->format('d/m/Y');
-		}else{
-			$deadline = "Ainda não definido";
-		}
-	
-		$this->body .= "Prazo: " . $deadline . "<br>";
-	
-		$this->body .= "Pontos de Função: " . $this->request->input('function_points') . "<br>";
-		
-		$this->requester = $this->requestModel->user->name;
-		
-		$this->requestId = $this->requestModel->id;
-		
-		if($this->request->file('file') != null)
-			 $this->attach(storage_path("app/files/".$this->request->file('file')->getClientOriginalName()));
+		if($this->file != null)
+			 $this->attach(storage_path("app/files/".$this->file->getClientOriginalName()));
 		 
 		return $this
-                ->subject($this->subject)
+                ->subject('Sua solicitação foi atualizada')
                 ->view("emails.updaterequest");
     }
 }

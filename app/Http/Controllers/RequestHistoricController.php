@@ -47,7 +47,7 @@ class RequestHistoricController extends Controller
 		
         $requestHistoric->user_id = $userId;
 		
-		$requestHistoric->message = ($message != null) ? $message : 'enviou uma solicitação';
+		$requestHistoric->message = ($message != null) ? $message : 'enviou a solicitação';
 		
 		if($action != null){
 			$requestHistoric->action = $action;

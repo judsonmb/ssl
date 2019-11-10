@@ -1,7 +1,19 @@
-<div>Oi, {{ $requester }}!<br>
-Sua solicitação sobre <i><strong>{{$requestModel->title}}</strong></i> foi atualizada!<br><br>
+@extends('layouts.email')
 
-{!! $body !!} <br><br>
+@section('content')
+<div id="emailBody">
 
-Clique <a href="ssl.linkn.com.br/requests/{{ $requestId }}">aqui</a> para ver mais detalhes.
+    <div>Oi, {{ $recipient }}!</div>
+
+    <div>
+        <h3>O Status da sua solicitação sobre <span class="green"> {{ $title }} </span>
+        foi atualizado para <span class="green"> {{ $status }} </span>!</h3>
+    </div>
+
+    <div>Clique <a href="ssl.linkn.com.br/requests/{{ $id }}">aqui</a> para ver mais detalhes.</div>
+    
 </div>
+
+
+
+
