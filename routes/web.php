@@ -18,10 +18,6 @@ Route::get('/', function () {
         return view('auth.login');
 });
 
-Route::get('/email', function(){
-    return view('emails.updaterequest');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
