@@ -24,7 +24,7 @@ class CreateRequestsTable extends Migration
             $table->text('description');
             $table->bigInteger('technician_id')->unsigned()->nullable();
             $table->foreign('technician_id')->references('id')->on('users');
-            $table->enum('type', ['bug', 'nova funcionalidade', 'melhoria', 'pedido'])->nullable();
+            $table->enum('type', ['bug', 'dúvida', 'melhoria', 'nova funcionalidade', 'pedido'])->nullable();
             $table->enum('priority', ['crítica', 'maior', 'menor', 'leve'])->nullable();
             $table->date('deadline')->nullable();
             $table->enum('status', ['a fazer', 'fazendo', 'bloqueada', 'feita'])->default('a fazer');

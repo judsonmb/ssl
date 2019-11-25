@@ -26,8 +26,9 @@
 									{{ old('type') ?? $request->type }}
 								</option>
 								<option value="bug">bug</option>
-								<option value="nova funcionalidade">nova funcionalidade</option>
+								<option value="dúvida">dúvida</option>
 								<option value="melhoria">melhoria</option>
+								<option value="nova funcionalidade">nova funcionalidade</option>
 								<option value="pedido">pedido</option>
 							</select>
 							
