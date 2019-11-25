@@ -225,7 +225,7 @@ class RequestController extends Controller
 				
 				$actualDate = new \Date();
                 
-                $deadlineDate = new \Date($request->input('deadline'));
+                $deadlineDate = new \Date($requestModel->deadline);
                 
 				$requestModel->delivered = ($deadlineDate >= $actualDate) ? 'dentro do prazo' : 'atrasado'; 
 			
@@ -243,9 +243,17 @@ class RequestController extends Controller
 		
 		$requestModel->type = $request->input('type');
 		
-		$requestModel->priority = $request->input('priority');	
+        $requestModel->priority = $request->input('priority');
 
-		$requestModel->deadline = $request->input('deadline');
+        if($requestModel->status == 'bloqueada' && $requestModel->status != $request->input('status'))
+        {
+            $deadline = new \DateTime('+1 day'); 
+            $deadline = $deadline->format('Y-m-d');
+        }else{
+            $deadline = $request->input('deadline');
+        }
+
+        $requestModel->deadline = $deadline;
 		
 		$requestModel->status = $request->input('status');	
 		
@@ -259,7 +267,7 @@ class RequestController extends Controller
 
 		$requestModel->technician_id = $request->input('technician_id');	
 		
-		$requestModel->function_points = $request->input('function_points');
+        $requestModel->function_points = $request->input('function_points');
 		
 		$requestModel->save();
 		
