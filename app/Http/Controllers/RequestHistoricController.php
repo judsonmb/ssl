@@ -90,7 +90,7 @@ class RequestHistoricController extends Controller
         $message = "atualizou a solicitação:";
 		
         $message .= ($requestModel->status != $request->input('status')) 
-			? " o status para ".$request->input('status')." ;" 
+			? " o status para ".$request->input('status').";" 
 			: "";
 			
         $technician = ($requestModel->technician_id != $request->input('technician_id')) 
