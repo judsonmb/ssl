@@ -223,11 +223,11 @@ class RequestController extends Controller
                     'function_points' => 'required',
                 ]);
 				
-				$actualDate = new \DateTime();
+				$actualDate = new \Date();
                 
-				$doneDate = new \DateTime($request->input('deadline'));
+                $deadlineDate = new \Date($request->input('deadline'));
                 
-				$requestModel->delivered = ($doneDate >= $actualDate) ? 'dentro do prazo' : 'atrasado'; 
+				$requestModel->delivered = ($deadlineDate >= $actualDate) ? 'dentro do prazo' : 'atrasado'; 
 			
 			} 
 			

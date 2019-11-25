@@ -71,7 +71,6 @@
 						<div class="form-group">
 							<label for="deadline">Prazo</label>
 							<input type="date" class="form-control" name="deadline" value="{{ $request->deadline ?? '' }}">
-							
 							@error('deadline')
 							<div class="error">{{ $message }}</div>
 							@enderror
