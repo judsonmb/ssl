@@ -30,6 +30,7 @@
 								<option value="melhoria">melhoria</option>
 								<option value="nova funcionalidade">nova funcionalidade</option>
 								<option value="pedido">pedido</option>
+								<option value="outros">outros</option>
 							</select>
 							
 							@error('type')

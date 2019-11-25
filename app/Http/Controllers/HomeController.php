@@ -46,9 +46,6 @@ class HomeController extends Controller
 		
         switch(Auth::user()->type)
         {
-			
-		
-		
             case 'administrador': 
             case 'parceiro':
             
@@ -69,6 +66,13 @@ class HomeController extends Controller
                 ->whereRaw('YEAR(created_at) = '. $year)
                 ->count();
 
+                $totalRequestsByProject = RequestModel::with('project')
+                ->select(DB::raw('project_id, count(id) as sum'))
+                ->whereRaw('MONTH(created_at) = '. $month)
+                ->whereRaw('YEAR(created_at) = '. $year)
+                ->groupBy('project_id')
+                ->get();
+
                 $totalRequestsByUser = RequestModel::with('user')
                 ->select(DB::raw('user_id, count(id) as sum'))
                 ->whereRaw('MONTH(created_at) = '. $month)
@@ -88,10 +92,9 @@ class HomeController extends Controller
                 ->groupBy('priority')
                 ->get();
 
-                $requestsByDelivery = RequestModel::select(DB::raw('delivered, count(id) as sum'))
-                ->where('status', 'feita')
-                ->whereRaw('MONTH(updated_at) = '. $month)
-                ->whereRaw('YEAR(updated_at) = '. $year)
+                $requestsByDelivery =  RequestModel::select(DB::raw('delivered, count(id) as sum'))
+                ->whereRaw('MONTH(created_at) = '. $month)
+                ->whereRaw('YEAR(created_at) = '. $year)
                 ->groupBy('delivered')
                 ->get();
 
@@ -103,7 +106,7 @@ class HomeController extends Controller
                  
 				 
 				 
-                return view(Auth::user()->type.'.home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'))
+                return view(Auth::user()->type.'.home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByProject', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'))
 				->with('month', $month)
 				->with('year', $year);
                 break;

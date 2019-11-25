@@ -14,68 +14,91 @@
                 <div class="card">
                     <div class="card-header">Dashboard</div>
 					<div class="card-body">
-						@if(!(!$functionPoints and !$functionPointsByProject->count() and !$totalRequests and !$totalRequestsByUser->count() and !$requestsByType->count() and !$requestsByPriority->count() and !$requestsByDelivery->count()))
+						@if(!(!$functionPoints and !$functionPointsByProject->count() and 
+						!$totalRequests and !$totalRequestsByProject->count() and 
+						!$totalRequestsByUser->count() and !$requestsByType->count() and 
+						!$requestsByPriority->count() and !$requestsByDelivery->count()))
 						<ul class="list-group">
-							<li class="list-group-item">
-								<strong>
-									Pontos de função usados (apenas requisições feitas): {{ $functionPoints }}
-								</strong>
-							</li>
-								@if($functionPointsByProject->count())
-									<li class="list-group-item">Por projeto:<br>
-										@foreach($functionPointsByProject as $f)
-											- {{ $f->project->name }}: {{ $f->sum }}<br>
-										@endforeach
-									</li>
-								@endif
+							
 							<li class="list-group-item">
 								<strong>
 									Requisições criadas: {{ $totalRequests }}
 								</strong>
-								@if($totalRequestsByUser->count())
-									<li class="list-group-item">Por usuário:<br>                           
-									@foreach($totalRequestsByUser as $u)
-										- {{ $u->user->name }}: {{ $u->sum }}<br>
-									@endforeach
-								@endif
 							</li>
-							<li class="list-group-item"><strong>Requisições por tipo:</strong>
-								@if($requestsByType->count())	
-									<br>
-									@foreach($requestsByType as $t)
-										@if($t->type == null)
-										   - Não definido: {{ $t->sum }}<br>
-										@else
-										   - {{ $t->type }}: {{ $t->sum }}<br>
-										@endif
-									@endforeach
-								@else
-									<strong>0</strong>
-								@endif
+
+							<li class="list-group-item">
+								<strong>
+									Pontos de função usados (apenas requisições feitas): {{ $functionPoints }}
+								</strong>
+								<br>
+									por projeto:
+								<br>
+								@foreach($functionPointsByProject as $f)
+									- {{ $f->project->name }}: {{ $f->sum }}<br>
+								@endforeach
+							</li>	
+
+							<li class="list-group-item">
+								<strong>
+									Requisições por projeto:
+								</strong>
+								<br>                     
+								@foreach($totalRequestsByProject as $p)
+									- {{ $p->project->name }}: {{ $p->sum }}<br>
+								@endforeach
+							</li>						
+							
+							<li class="list-group-item">
+								<strong>
+									Requisições por usuário:
+								</strong>
+								<br>                     
+								@foreach($totalRequestsByUser as $u)
+									- {{ $u->user->name }}: {{ $u->sum }}<br>
+								@endforeach
 							</li>
-							<li class="list-group-item"><strong>Requisições por prioridade:</strong>
-								@if($requestsByPriority->count())
-									<br>
-									@foreach($requestsByPriority as $p)
-										@if($p->priority == null)
-											- Não definido: {{ $t->sum }}<br>
-										 @else
-											- {{ $p->priority }}: {{ $t->sum }}<br>
-										@endif 
-									@endforeach
-								@else
-									<strong>0</strong>
-								@endif
+
+						
+							<li class="list-group-item">
+								<strong>
+									Requisições por tipo:
+								</strong>
+								<br>
+								@foreach($requestsByType as $t)
+									@if($t->type == null)
+										- Não definido: {{ $t->sum }}<br>
+									@else
+										- {{ $t->type }}: {{ $t->sum }}<br>
+									@endif
+								@endforeach
 							</li>
-							<li class="list-group-item"><strong>Requisições por entrega:</strong>
-								@if($requestsByDelivery->count())
-									<br>
-									@foreach($requestsByDelivery as $d)
-											- {{ $d->delivered }}: {{ $t->sum }}<br>
-									@endforeach
-								@else
-									<strong>0</strong>
-								@endif
+
+							<li class="list-group-item">
+								<strong>
+									Requisições por prioridade:
+								</strong>
+								<br>
+								@foreach($requestsByPriority as $p)
+									@if($p->priority == null)
+										- Não definido: {{ $p->sum }}<br>
+									@else
+										- {{ $p->priority }}: {{ $p->sum }}<br>
+									@endif
+								@endforeach
+							</li>
+
+							<li class="list-group-item">
+								<strong>
+									Requisições por entrega:
+								</strong>
+								<br>
+								@foreach($requestsByDelivery as $d)
+									@if($d->delivered == null)
+										- Não definido: {{ $d->sum }}<br>
+									@else
+										- {{ $d->delivered }}: {{ $d->sum }}<br>
+									@endif
+								@endforeach
 							</li>
 						</ul>
 						@else
