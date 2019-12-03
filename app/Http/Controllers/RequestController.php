@@ -78,13 +78,13 @@ class RequestController extends Controller
     {
         switch(Auth::user()->type)
 		{
-
             case 'administrador':
+                $users = User::orderby('name')->get();
                 $projects = Project::orderby('name')->get();
+                return view('administrador.requests-create', compact('projects', 'users'));
                 break;
 				
             case 'parceiro':
-                //quero todos os projetos das instituições de usuários que não são admins
                 $users = User::where('type','administrador')->get()->pluck('institution_id');
                 $projects = Project::where('institution_id', '!=', $users)->orderby('name')->get();
                 break;
@@ -94,7 +94,7 @@ class RequestController extends Controller
                 break;
         }
 		
-		return view('requests-create', compact('projects'));
+		return view(Auth::user()->type.'.requests-create', compact('projects'));
     }
 
     /**
@@ -113,7 +113,7 @@ class RequestController extends Controller
 
         $requestModel = new RequestModel();
 		
-        $requestModel->user_id = Auth::user()->id;
+        $requestModel->user_id = ($request->user_id == null) ? Auth::user()->id : $request->user_id;
 		
         $requestModel->project_id = $request->input('project_id');
 		
@@ -137,7 +137,7 @@ class RequestController extends Controller
 		$fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
 		
         Mail::to('contato@linkn.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
-		
+
 		Mail::to(Auth::user()->email)->send(new SendRequestConfirmMail(Auth::user()->name, $request->input('title'), $requestModel->id));
 
         return redirect()->route('requests.index')->with('status', 'Solicitação enviada com sucesso!');
