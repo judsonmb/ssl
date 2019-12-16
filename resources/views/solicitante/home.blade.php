@@ -17,7 +17,7 @@
 						@if($requestHistorics != 0)
 							<div class="list-group">
 								@foreach($requestHistorics as $r)
-									<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+									<a href="/requests/{{$r->request_id}}/" class="list-group-item list-group-item-action flex-column align-items-start">
 										<div class="d-flex w-100 justify-content-between">
 										{{$r->user->name}}
 											<small>{{date('d/m/Y H:i:s', strtotime($r->created_at))}}</small>
