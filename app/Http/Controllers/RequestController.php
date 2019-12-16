@@ -152,8 +152,6 @@ class RequestController extends Controller
         //     'title' => 'required|string|min:2|max:255',
         //     'description' => 'required',
         // ]);
-
-        dd($request->email);
             
         $user = User::where('email', $request->email)->first();
 
@@ -167,7 +165,7 @@ class RequestController extends Controller
 
             $user->type = 'solicitante';
 
-            $project = Project::find($request->project_id);
+            $project = Project::find($request->project_id)->first();
 
             $user->institution_id = $project->institution_id;
 
