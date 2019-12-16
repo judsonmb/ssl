@@ -157,23 +157,21 @@ class RequestController extends Controller
 
         $user = User::where('email', $request->email)->get();
 
-        if($user == null)
+        if(empty($user))
         {
-            $newUser = new User();
+            $user = new User();
             
-            $newUser->name = $request->name;
+            $user->name = $request->name;
 
-            $newUser->email = $request->email;
+            $user->email = $request->email;
 
-            $newUser->type = 'solicitante';
+            $user->type = 'solicitante';
 
             $project = Project::find($request->project_id);
 
-            $newUser->institution_id = $project->institution_id;
+            $user->institution_id = $project->institution_id;
 
-            $newUser->save();
-
-            $requestModel->user_id = $newUser->id;
+            $user->save();
         }
 
         $requestModel->user_id = $user->id;
