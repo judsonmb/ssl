@@ -176,6 +176,8 @@ class RequestController extends Controller
             $requestModel->user_id = $newUser->id;
         }
 
+        $requestModel->user_id = $user->id;
+
         $requestModel->project_id = $request->project_id;
 
         $requestModel->created_out = 1;
