@@ -193,6 +193,10 @@ class RequestController extends Controller
 			$file->store($request->file('file'), $requestModel->id);
         }
 
+        $requestHistoric = new RequestHistoricController();
+		
+        $requestHistoric->store($requestModel->id, $user->id);
+
         $fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
 
         Mail::to('contato@linkn.com.br')->send(new NewRequestMail($user->name, $fileName, $request->title, $request->description, $requestModel->id));
