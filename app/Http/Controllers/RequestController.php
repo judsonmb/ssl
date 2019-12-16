@@ -116,6 +116,8 @@ class RequestController extends Controller
         $requestModel->user_id = ($request->user_id == null) ? Auth::user()->id : $request->user_id;
 		
         $requestModel->project_id = $request->input('project_id');
+
+        $requestModel->created_out = 0;
 		
         $requestModel->title = $request->input('title');
 		
@@ -141,6 +143,50 @@ class RequestController extends Controller
 		Mail::to(Auth::user()->email)->send(new SendRequestConfirmMail(Auth::user()->name, $request->input('title'), $requestModel->id));
 
         return redirect()->route('requests.index')->with('status', 'Solicitação enviada com sucesso!');
+    }
+
+    public function apiStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'project_id' => 'required',
+            'title' => 'required|string|min:2|max:255',
+            'description' => 'required',
+        ]);
+
+        $requestModel = new RequestModel();
+
+        $user = User::where('email', $request->email)->get();
+
+        if($user == null)
+        {
+            $newUser = new User();
+            
+            $newUser->name = $request->name;
+
+            $newUser->email = $request->email;
+
+            $newUser->type = 'solicitante';
+
+            $project = Project::find($request->project_id);
+
+            $newUser->institution_id = $project->institution_id;
+
+            $newUser->save();
+
+            $requestModel->user_id = $newUser->id;
+        }
+
+        $requestModel->project_id = $request->project_id;
+
+        $requestModel->created_out = 1;
+
+        $requestModel->title = $request->title;
+
+        $requestModel->description = $request->description;
+
+        $requestModel->save();
+
+        return response('Feito!', 200);
     }
 
     /**

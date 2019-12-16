@@ -19,6 +19,7 @@ class CreateRequestsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('project_id')->unsigned();
+            $table->enum('created_out', ['0','1']);
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('CASCADE');
             $table->string('title');
             $table->text('description');
