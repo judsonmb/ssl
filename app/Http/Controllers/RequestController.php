@@ -147,15 +147,13 @@ class RequestController extends Controller
 
     public function apiStore(Request $request)
     {
-        $validatedData = $request->validate([
-            'project_id' => 'required',
-            'title' => 'required|string|min:2|max:255',
-            'description' => 'required',
-        ]);
-
-        $requestModel = new RequestModel();
-
-        $user = User::where('email', $request->email)->get();
+        // $validatedData = $request->validate([
+        //     'project_id' => 'required',
+        //     'title' => 'required|string|min:2|max:255',
+        //     'description' => 'required',
+        // ]);
+            
+        $user = User::where('email', $request->email)->first();
 
         if(empty($user))
         {
@@ -174,6 +172,8 @@ class RequestController extends Controller
             $user->save();
         }
 
+        $requestModel = new RequestModel();
+
         $requestModel->user_id = $user->id;
 
         $requestModel->project_id = $request->project_id;
@@ -185,6 +185,19 @@ class RequestController extends Controller
         $requestModel->description = $request->description;
 
         $requestModel->save();
+
+        if($request->file('file') != null)
+        {
+			$file = new FileController();
+			
+			$file->store($request->file('file'), $requestModel->id);
+        }
+
+        $fileName = ($request->file('file') != null) ? $request->file('file')->getClientOriginalName() : '';
+
+        Mail::to('contato@linkn.com.br')->send(new NewRequestMail($user->name, $fileName, $request->title, $request->description, $requestModel->id));
+
+		Mail::to($request->email)->send(new SendRequestConfirmMail($user->name, $request->title, $requestModel->id));
 
         return response('Feito!', 200);
     }
