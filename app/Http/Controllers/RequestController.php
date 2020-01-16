@@ -117,7 +117,7 @@ class RequestController extends Controller
 		
         $requestModel->project_id = $request->input('project_id');
 
-        $requestModel->created_out = 0;
+        $requestModel->created_out = '0';
 		
         $requestModel->title = $request->input('title');
 		
@@ -178,7 +178,7 @@ class RequestController extends Controller
 
         $requestModel->project_id = $request->project_id;
 
-        $requestModel->created_out = 1;
+        $requestModel->created_out = '1';
 
         $requestModel->title = $request->title;
 
