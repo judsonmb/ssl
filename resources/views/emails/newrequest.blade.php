@@ -3,7 +3,7 @@
 @section('content')
 <div id="emailBody">
 
-    <div>Oi, <span class="green">LinKn</span>!</div>
+    <div>Oi!</div>
 
     <div>
         <h3>{{ $sender }} enviou uma solicitação.</h3>

@@ -140,6 +140,10 @@ class RequestController extends Controller
 		
         Mail::to('contato@linkn.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
 
+        Mail::to('andre.lima@eyeduc.com.br')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
+
+        Mail::to('andreducap@gmail.com')->send(new NewRequestMail(Auth::user()->name, $fileName, $request->input('title'), $request->input('description'), $requestModel->id));
+
 		Mail::to(Auth::user()->email)->send(new SendRequestConfirmMail(Auth::user()->name, $request->input('title'), $requestModel->id));
 
         return redirect()->route('requests.index')->with('status', 'Solicitação enviada com sucesso!');
@@ -201,7 +205,11 @@ class RequestController extends Controller
 
         Mail::to('contato@linkn.com.br')->send(new NewRequestMail($user->name, $fileName, $request->title, $request->description, $requestModel->id));
 
-		Mail::to($request->email)->send(new SendRequestConfirmMail($user->name, $request->title, $requestModel->id));
+        Mail::to('andre.lima@eyeduc.com.br')->send(new NewRequestMail($user->name, $fileName, $request->title, $request->description, $requestModel->id));
+
+        Mail::to('andreducap@gmail.com')->send(new NewRequestMail($user->name, $fileName, $request->title, $request->description, $requestModel->id));
+       
+        Mail::to($request->email)->send(new SendRequestConfirmMail($user->name, $request->title, $requestModel->id));
 
         return response('Feito!', 200);
     }
@@ -297,7 +305,15 @@ class RequestController extends Controller
             Mail::to($requestModel->user->email)
             ->send(new UpdateRequestMail($requestModel->user->name, $requestModel->title, 
             $requestModel->status, $request->file('file'), $requestModel->id));
-			
+
+            Mail::to('andre.lima@eyeduc.com.br')
+            ->send(new UpdateRequestMail($requestModel->user->name, $requestModel->title, 
+            $requestModel->status, $request->file('file'), $requestModel->id));
+
+            Mail::to('andreducap@gmail.com')
+            ->send(new UpdateRequestMail($requestModel->user->name, $requestModel->title, 
+            $requestModel->status, $request->file('file'), $requestModel->id));
+
 		}	
 		
 		$requestHistoric = new RequestHistoricController();
@@ -371,7 +387,11 @@ class RequestController extends Controller
 		}
 		
 		Mail::to($email)->send(new RequestMessageMail($name, $requestModel->title, $message, $requestModel->id));
-		
+        
+        Mail::to('andre.lima@eyeduc.com.br')->send(new RequestMessageMail($name, $requestModel->title, $message, $requestModel->id));
+
+        Mail::to('andreducap@gmail.com')->send(new RequestMessageMail($name, $requestModel->title, $message, $requestModel->id));
+
 		return redirect()->route('requests.show', $id)->with('status', 'Mensagem enviada com sucesso!');
 		
 	}
