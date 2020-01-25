@@ -49,6 +49,7 @@
 											@method('DELETE')
 											<a href="/requests/{{$r->id}}/"><button type="button" class="btn btn-xs btn-secondary"><i class="fas fa-eye"></i></button></a>
 											<a href="/requests/{{$r->id}}/edit/"><button type="button" class="btn btn-xs btn-primary"><i class="fas fa-pen"></i></button></a>
+											<a title="calcular pontos de função" href="/requests/{{$r->id}}/editfp/"><button type="button" class="btn btn-xs btn-warning"><i class="fas fa-sticky-note"></i></button></a>
 											<button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Você tem certeza que deseja excluir esta solicitação?')"><i class="fas fa-trash"></i></button>
 										</form>	
 									</td>							

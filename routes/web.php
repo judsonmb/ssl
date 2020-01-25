@@ -28,6 +28,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/requests', 'RequestController');
 	
+	Route::get('/requests/{id}/editfp', 'RequestController@editFp');
+	
+	Route::put('/requests/{id}/updatefp', 'RequestController@updateFp');
+	
     Route::post('/requests/{id}/message', 'RequestController@sendMessage');
 
     Route::get('/password/edit', 'UserController@editPassword')->name('edit-password');

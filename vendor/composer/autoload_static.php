@@ -405,6 +405,7 @@ class ComposerStaticInit4531f0d506fc180712152d1ba0f2e96f
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\RequestsCron' => __DIR__ . '/../..' . '/app/Console/Commands/RequestsCron.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\File' => __DIR__ . '/../..' . '/app/File.php',
@@ -432,6 +433,11 @@ class ComposerStaticInit4531f0d506fc180712152d1ba0f2e96f
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Institution' => __DIR__ . '/../..' . '/app/Institution.php',
+        'App\\Mail\\NewRequestMail' => __DIR__ . '/../..' . '/app/Mail/NewRequestMail.php',
+        'App\\Mail\\RequestMessageMail' => __DIR__ . '/../..' . '/app/Mail/RequestMessageMail.php',
+        'App\\Mail\\ResponsibleTechnicianMail' => __DIR__ . '/../..' . '/app/Mail/ResponsibleTechnicianMail.php',
+        'App\\Mail\\SendRequestConfirmMail' => __DIR__ . '/../..' . '/app/Mail/SendRequestConfirmMail.php',
+        'App\\Mail\\UpdateRequestMail' => __DIR__ . '/../..' . '/app/Mail/UpdateRequestMail.php',
         'App\\Project' => __DIR__ . '/../..' . '/app/Project.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

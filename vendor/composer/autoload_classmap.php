@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\RequestsCron' => $baseDir . '/app/Console/Commands/RequestsCron.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\File' => $baseDir . '/app/File.php',
@@ -33,6 +34,11 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Institution' => $baseDir . '/app/Institution.php',
+    'App\\Mail\\NewRequestMail' => $baseDir . '/app/Mail/NewRequestMail.php',
+    'App\\Mail\\RequestMessageMail' => $baseDir . '/app/Mail/RequestMessageMail.php',
+    'App\\Mail\\ResponsibleTechnicianMail' => $baseDir . '/app/Mail/ResponsibleTechnicianMail.php',
+    'App\\Mail\\SendRequestConfirmMail' => $baseDir . '/app/Mail/SendRequestConfirmMail.php',
+    'App\\Mail\\UpdateRequestMail' => $baseDir . '/app/Mail/UpdateRequestMail.php',
     'App\\Project' => $baseDir . '/app/Project.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

@@ -30,7 +30,22 @@ class CreateRequestsTable extends Migration
             $table->date('deadline')->nullable();
             $table->enum('status', ['a fazer', 'fazendo', 'bloqueada', 'feita'])->default('a fazer');
             $table->enum('delivered', ['dentro do prazo', 'atrasado'])->nullable();
-            $table->integer('function_points')->default(0);
+            $table->integer('ali_data_type_amount')->default(0);
+            $table->integer('ali_register_type_amount')->default(0);
+            $table->string('ali_justify')->nullable();
+            $table->integer('aie_data_type_amount')->default(0);
+            $table->integer('aie_register_type_amount')->default(0);
+            $table->string('aie_justify')->nullable();
+            $table->integer('ee_data_type_amount')->default(0);
+            $table->integer('ee_referenced_files_amount')->default(0);
+            $table->string('ee_justify')->nullable();
+            $table->integer('se_data_type_amount')->default(0);
+            $table->integer('se_referenced_files_amount')->default(0);
+            $table->string('se_justify')->nullable();
+            $table->integer('ce_data_type_amount')->default(0);
+            $table->integer('ce_referenced_files_amount')->default(0);
+            $table->string('ce_justify')->nullable();
+            $table->integer('function_points')->nullable();
             $table->timestamps();
         });
     }

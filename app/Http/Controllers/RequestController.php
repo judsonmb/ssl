@@ -291,7 +291,6 @@ class RequestController extends Controller
                     'priority' => 'required',
                     'deadline' => 'required',
                     'technician_id' => 'required',
-                    'function_points' => 'required',
                 ]);
 				
 				$actualDate = new \Date();
@@ -346,11 +345,319 @@ class RequestController extends Controller
 
 		$requestModel->technician_id = $request->input('technician_id');	
 		
-        $requestModel->function_points = $request->input('function_points');
-		
 		$requestModel->save();
 		
         return redirect()->route('requests.index')->with('status', 'Solicitação atualizada com sucesso!');
+    }
+	
+	public function editFp($id){
+		
+		$request = RequestModel::find($id);
+		
+		$request->load('user');
+		
+		return view(Auth::user()->type.'.requests-edit-fp', compact('request'));
+	
+	}
+	
+	public function updatefp(Request $request, $id)
+    {
+        $requestModel = RequestModel::find($id);
+
+        $requestModel->function_points = 0;
+
+        $requestModel->ali_data_type_amount = $request->ali_data_type_amount;
+        $requestModel->ali_register_type_amount = $request->ali_register_type_amount;
+        $requestModel->ali_justify = $request->ali_justify;
+
+        $requestModel->function_points += $this->calculateAliFpAmount($requestModel->ali_data_type_amount, $requestModel->ali_register_type_amount);
+
+        $requestModel->aie_data_type_amount = $request->aie_data_type_amount;
+        $requestModel->aie_register_type_amount = $request->aie_register_type_amount;
+        $requestModel->aie_justify = $request->aie_justify;
+
+        $requestModel->function_points += $this->calculateAieFpAmount($requestModel->aie_data_type_amount, $requestModel->aie_register_type_amount);
+
+        $requestModel->ee_data_type_amount = $request->ee_data_type_amount;
+        $requestModel->ee_referenced_files_amount = $request->ee_referenced_files_amount;
+        $requestModel->ee_justify = $request->ee_justify;
+
+        $requestModel->function_points += $this->calculateEeFpAmount($requestModel->ee_data_type_amount, $requestModel->ee_referenced_files_amount);
+
+        $requestModel->se_data_type_amount = $request->se_data_type_amount;
+        $requestModel->se_referenced_files_amount = $request->se_referenced_files_amount;
+        $requestModel->se_justify = $request->se_justify;
+
+        $requestModel->function_points += $this->calculateSeFpAmount($requestModel->se_data_type_amount, $requestModel->se_referenced_files_amount);
+       
+        $requestModel->ce_data_type_amount = $request->ce_data_type_amount;
+        $requestModel->ce_referenced_files_amount = $request->ce_referenced_files_amount;
+        $requestModel->ce_justify = $request->ce_justify;
+
+        $requestModel->function_points += $this->calculateCeFpAmount($requestModel->ce_data_type_amount, $requestModel->ce_referenced_files_amount);
+
+        $requestModel->save();
+        
+        return redirect()->route('requests.index')->with('status', 'Pontos de função calculados e atualizados com sucesso!');
+    }
+
+    public function calculateAliFpAmount($td, $tr)
+    {
+        if($td == 0 && $tr == 0)
+        {
+            return 0;
+        }
+
+        if($td < 20 && $tr == 1){
+            return 7;
+        }
+
+        if($td < 20 && ($tr >= 2 && $tr <= 5)){
+            return 7;
+        }
+
+        if($td < 20 && $tr > 5){
+            return 10;
+        }
+
+        ///////
+
+        if(($td >= 20 && $td <= 50) && $tr == 1){
+            return 7;
+        }
+
+        if(($td >= 20 && $td <= 50) && ($tr >= 2 && $tr <= 5)){
+            return 10;
+        }
+
+        if(($td >= 20 && $td <= 50) && $tr > 5){
+            return 15;
+        }
+
+        ///////
+
+        if($td > 50 && $tr == 1){
+            return 10;
+        }
+
+        if($td > 50 && ($tr >= 2 && $tr <= 5)){
+            return 15;
+        }
+
+        if($td > 50 && $tr > 5){
+            return 15;
+        }
+
+        return 0;
+
+    }
+
+    public function calculateAieFpAmount($td, $tr)
+    {
+        if($td == 0 && $tr == 0)
+        {
+            return 0;
+        }
+
+        if($td < 20 && $tr == 1){
+            return 5;
+        }
+
+        if($td < 20 && ($tr >= 2 && $tr <= 5)){
+            return 5;
+        }
+
+        if($td < 20 && $tr > 5){
+            return 7;
+        }
+
+        ///////
+
+        if(($td >= 20 && $td <= 50) && $tr == 1){
+            return 5;
+        }
+
+        if(($td >= 20 && $td <= 50) && ($tr >= 2 && $tr <= 5)){
+            return 7;
+        }
+
+        if(($td >= 20 && $td <= 50) && $tr > 5){
+            return 10;
+        }
+
+        ///////
+
+        if($td > 50 && $tr == 1){
+            return 7;
+        }
+
+        if($td > 50 && ($tr >= 2 && $tr <= 5)){
+            return 10;
+        }
+
+        if($td > 50 && $tr > 5){
+            return 10;
+        }
+
+        return 0;
+
+    }
+
+    public function calculateEeFpAmount($td, $tr)
+    {
+        if($td == 0 && $tr == 0)
+        {
+            return 0;
+        }
+
+        if($td < 5 && $tr < 2){
+            return 3;
+        }
+
+        if($td < 5 && $tr == 2){
+            return 3;
+        }
+
+        if($td < 5 && $tr > 2){
+            return 4;
+        }
+
+        ///////
+
+        if(($td >= 5 && $td <= 15) && $tr < 2){
+            return 3;
+        }
+
+        if(($td >= 5 && $td <= 15) && $tr == 2){
+            return 4;
+        }
+
+         if(($td >= 5 && $td <= 15) && $tr > 2){
+            return 6;
+        }
+
+        ///////
+
+        if($td > 15 && $tr < 2){
+            return 4;
+        }
+
+        if($td > 15 && $tr == 2){
+            return 6;
+        }
+
+        if($td > 15 && $tr > 2){
+            return 6;
+        }
+
+        return 0;
+    }
+
+    public function calculateSeFpAmount($td, $tr)
+    {
+        if($td == 0 && $tr == 0)
+        {
+            return 0;
+        }
+
+        if($td < 6 && $tr < 2){
+            return 4;
+        }
+
+        if(($td < 6) && ($tr == 2 || $tr == 3)){
+            return 4;
+        }
+
+        if($td < 6 && $tr > 3){
+            return 5;
+        }
+
+        ///////
+
+        if(($td >= 6 && $td <= 15) && ($tr < 2)){
+            return 4;
+        }
+
+        if(($td >= 6 && $td <= 15) && ($tr == 2 || $tr == 3)){
+            return 5;
+        }
+
+         if(($td >= 6 && $td <= 15) && ($tr > 3)){
+            return 7;
+        }
+
+        ///////
+
+        if($td > 15 && $tr < 2){
+            return 5;
+        }
+
+        if(($td > 15) && ($tr == 2 || $tr == 3)){
+            return 7;
+        }
+
+        if($td > 15 && $tr > 3){
+            return 7;
+        }
+
+        return 0;
+    }
+
+    public function calculateCeFpAmount($td, $tr)
+    {
+       if($td == 0 && $tr == 0)
+        {
+            return 0;
+        }
+
+       if($td < 6 && $tr < 2)
+        {
+            return 3;
+        }
+
+        if(($td < 6) && ($tr == 2 || $tr == 3))
+        {
+            return 3;
+        }
+
+        if($td < 6 && $tr > 3)
+        {
+            return 4;
+        }
+
+        ///////
+
+        if(($td >= 6 && $td <= 15) && $tr < 2)
+        {
+            return 3;
+        }
+
+        if(($td >= 6 && $td <= 15) && ($tr == 2 || $tr == 3))
+        {  
+            return 4;
+        }
+
+        if(($td >= 6 && $td <= 15) && $tr > 3){
+            return 6;
+        }
+
+        ///////
+
+        if($td > 15 && $tr < 2){
+            return 4;
+        }
+
+        if($td > 15 && ($tr == 2 || $tr == 3))
+        {
+            return 6;
+        }
+
+        if($td > 15 && $tr > 3)
+        {
+            return 6;
+        }
+
+        return 0;
     }
 	
 	public function sendMessage(Request $request, $id){
