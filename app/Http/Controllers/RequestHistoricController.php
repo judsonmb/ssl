@@ -112,10 +112,6 @@ class RequestHistoricController extends Controller
         $message .= ($requestModel->deadline != $request->input('deadline')) 
 			? " o prazo para ".date_format(new \DateTime($request->input('deadline')), 'd/m/Y').";" 
 			: "";
-			
-        $message .= ($requestModel->function_points != $request->input('function_points')) 
-			? " os pontos de função para ".$request->input('function_points').";" 
-			: "";
 		
         $message .= ($request->file('file') != null) 
 			? " anexou um arquivo;" 
