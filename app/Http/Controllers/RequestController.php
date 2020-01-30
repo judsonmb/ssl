@@ -680,16 +680,15 @@ class RequestController extends Controller
 			$name = $requestModel->user->name;
 		
 		}else{
-			
-			$name = $requestModel->technician->name;
-			
+						
 			if($requestModel->technician != null){
 				
 				$email = $requestModel->technician->email;
-				
+				$name = $requestModel->technician->name;	
 			}else{
 				
 				$email = 'contato@linkn.com.br';
+				$name = 'LinKn';
 			}
 		}
 		
