@@ -28,7 +28,7 @@
 						<ul class="list-group">
 							@foreach($todo as $t)
 							<a href="/requests/{{$t->id}}/" class="list-group-item list-group-item-action flex-column align-items-start">
-								<small>Prazo: {{date('d/m/Y',strtotime($t->deadline))}}</small>
+								<small>Prazo: {{ ($t->deadline != null) ? date('d/m/Y',strtotime($t->deadline)) : "Ainda não definido"}}</small>
 								<h5>
 									<p class="mb-1">{{$t->title}}</p>
 								</h5>
@@ -47,7 +47,7 @@
 						<ul class="list-group">
 							@foreach($doing as $dg)
 							<a href="/requests/{{$dg->id}}/" class="list-group-item list-group-item-action flex-column align-items-start">
-								<small>Prazo: {{$dg->deadline}}</small>
+								<small>Prazo: Prazo: {{ ($dg->deadline != null) ? date('d/m/Y',strtotime($dg->deadline)) : "Ainda não definido"}}</small>
 								<h5>
 									<p class="mb-1">{{$dg->title}}</p>
 								</h5>
