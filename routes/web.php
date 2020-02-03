@@ -20,12 +20,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::post('/home', 'HomeController@index')->name('home');
-
 Route::middleware(['auth'])->group(function () {
+	
+	Route::get('/home', 'HomeController@index')->name('home');
+	
+	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 
+	Route::post('/dashboard', 'HomeController@dashboard')->name('dashboard');
+	
     Route::resource('/requests', 'RequestController');
 	
 	Route::get('/requests/{id}/editfp', 'RequestController@editFp');

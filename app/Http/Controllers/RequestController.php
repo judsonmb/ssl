@@ -52,9 +52,9 @@ class RequestController extends Controller
                 break;
 				
             case 'parceiro':
-                $requests = RequestModel::where('status', '!=', 'feita')->wherehas('user', function($query){
-                    $query->where('type', '!=', 'administrador');
-                })->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
+				
+				$requests = RequestModel::where('status', '!=', 'feita')->orderby('status')->orderBy('deadline', 'asc')->orderby('created_at')->paginate(10);
+			   
                 break;
 				
             case 'solicitante':

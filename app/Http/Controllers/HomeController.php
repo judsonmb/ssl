@@ -27,13 +27,67 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
+	
+	public function index()
+	{
+		
+		$month = Date('m');
+		$year = Date('Y');
+		
+		switch(Auth::user()->type)
+        {
+            case 'administrador': 
+            case 'parceiro':
+				
+				$blocked = RequestModel::where('status', 'bloqueada')->orderBy('deadline', 'asc')->orderby('created_at')->get();
+		
+				$todo = RequestModel::where('status', 'a fazer')->orderBy('deadline', 'asc')->orderby('created_at')->get();
+		
+				$doing = RequestModel::where('status', 'fazendo')->orderBy('deadline', 'asc')->orderby('created_at')->get();
+		
+				$done = RequestModel::where('status', 'feita')
+				->whereRaw('MONTH(updated_at) = '. $month)
+                ->whereRaw('YEAR(updated_at) = '. $year)
+				->orderBy('deadline', 'asc')
+				->orderby('created_at')->get();
+		
+				break;
+		
+			case 'solicitante':
+			
+				$institution = Auth::user()->institution_id;
+			
+				$blocked = RequestModel::where('status', 'bloqueada')->wherehas('user', function($query) use ($institution){
+                    $query->where('institution_id', '=', $institution);
+                })->orderBy('deadline', 'asc')->orderby('created_at')->get();
+		
+				$todo = RequestModel::where('status', 'a fazer')->wherehas('user', function($query) use ($institution){
+                    $query->where('institution_id', '=', $institution);
+                })->orderBy('deadline', 'asc')->orderby('created_at')->get();
+		
+				$doing = RequestModel::where('status', 'fazendo')->wherehas('user', function($query) use ($institution){
+                    $query->where('institution_id', '=', $institution);
+                })->orderBy('deadline', 'asc')->orderby('created_at')->get();
+		
+				$done = RequestModel::where('status', 'feita')
+				->whereRaw('MONTH(updated_at) = '. $month)
+                ->whereRaw('YEAR(updated_at) = '. $year)
+				->wherehas('user', function($query) use ($institution){
+                    $query->where('institution_id', '=', $institution);
+                })->orderBy('deadline', 'asc')->orderby('created_at')->get();
+		
+				break;
+		}
+		
+		return view('home', compact('blocked', 'todo', 'doing', 'done'));
+	}	
 
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
+    public function dashboard(Request $request)
     {	
 		if($request->input('month') != null){
 			$monthYear = explode("-", $request->input('month'));
@@ -106,7 +160,7 @@ class HomeController extends Controller
                  
 				 
 				 
-                return view(Auth::user()->type.'.home', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByProject', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'))
+                return view(Auth::user()->type.'.dashboard', compact('functionPoints', 'functionPointsByProject', 'totalRequests', 'totalRequestsByProject', 'totalRequestsByUser', 'requestsByType', 'requestsByPriority', 'requestsByDelivery', 'requestHistorics'))
 				->with('month', $month)
 				->with('year', $year);
                 break;

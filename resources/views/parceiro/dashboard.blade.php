@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-		<form class="form-inline" method="POST" action="home">
+		<form class="form-inline" method="POST" action="dashboard">
 			@csrf
 			<div class="form-group mx-sm-3 mb-2">
 				<input type="month" class="form-control" name="month" value='{{ $year }}-{{$month}}'>
