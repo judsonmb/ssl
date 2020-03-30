@@ -14,7 +14,9 @@
 		</div>
 		<div class="col-md-2">
 			<a href="/requests/{{$request->id}}/edit/">
-				Editar
+				<button type="button" class="btn btn-xs btn-primary">
+					Editar
+				</button>
 			</a>
 		</div>
 		<div class="col-md-10">
