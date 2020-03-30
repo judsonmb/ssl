@@ -47,7 +47,7 @@
 						<ul class="list-group">
 							@foreach($doing as $dg)
 							<a href="/requests/{{$dg->id}}/" class="list-group-item list-group-item-action flex-column align-items-start">
-								<small>Prazo: Prazo: {{ ($dg->deadline != null) ? date('d/m/Y',strtotime($dg->deadline)) : "Ainda não definido"}}</small>
+								<small>Prazo: {{ ($dg->deadline != null) ? date('d/m/Y',strtotime($dg->deadline)) : "Ainda não definido"}}</small>
 								<h5>
 									<p class="mb-1">{{$dg->title}}</p>
 								</h5>

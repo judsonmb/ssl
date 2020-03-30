@@ -236,7 +236,7 @@ class RequestController extends Controller
 
         $historics->load('user');
 		
-        return view('requests-details', compact('request', 'historics', 'files'));
+        return view(Auth::user()->type.'.requests-details', compact('request', 'historics', 'files'));
     }
 
     /**
